@@ -1,0 +1,54 @@
+{
+  // Configuração do Worker. IDs de KV/D1 são preenchidos pelo setup (ver README).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "edge-traffic-shield",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "observability": { "enabled": true },
+
+  "vars": {
+    // Timeout da chamada ao Durable Object no hot path. Estourou => fail-open sem velocity.
+    "DO_TIMEOUT_MS": "10",
+    // Permite o header X-Shield-Chaos para injetar falha de KV/DO/D1/Queue (demo e testes de fail-open).
+    // Em produção fica "false".
+    "CHAOS_ENABLED": "false",
+    // Hostname da plataforma (API de gestão). Vazio = API respondida em qualquer host em /__ets/api.
+    "PLATFORM_HOST": ""
+  },
+
+  "kv_namespaces": [
+    { "binding": "CONFIG_KV", "id": "00000000000000000000000000000000" }
+  ],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ets-db",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "durable_objects": {
+    "bindings": [
+      { "name": "SHIELD_SHARD", "class_name": "ShieldShard" },
+      { "name": "TENANT_CONFIG", "class_name": "TenantConfig" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["ShieldShard", "TenantConfig"] }
+  ],
+
+  "queues": {
+    "producers": [{ "binding": "EVENTS_QUEUE", "queue": "ets-events" }],
+    "consumers": [
+      {
+        "queue": "ets-events",
+        // Cada mensagem já é um lote de eventos; 10 mensagens por invocação do consumer.
+        "max_batch_size": 10,
+        "max_batch_timeout": 10,
+        "max_retries": 3
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+# Copie para .dev.vars (gitignored). Valores de DESENVOLVIMENTO, nunca os reais.
+EVAL_KEY=dev-eval-key-troque-em-producao
+ADMIN_API_KEY=ets_admin_dev_troque
+COOKIE_SECRET=dev-cookie-secret-troque
+# Opcionais
+# TURNSTILE_SITE_KEY=
+# TURNSTILE_SECRET_KEY=
+# CF_API_TOKEN=
+# CF_ZONE_ID=

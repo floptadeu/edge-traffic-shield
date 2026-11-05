@@ -1,0 +1,26 @@
+{
+  "name": "edge-traffic-shield",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Edge Traffic Shield - filtro multi-tenant de scrapers na borda (Cloudflare Workers)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply ets-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply ets-db --remote",
+    "fixtures:gen": "node scripts/gen-fixtures.mjs",
+    "fixtures:eval": "node scripts/eval-fixtures.mjs",
+    "load": "node scripts/load.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.6.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.158.0"
+  }
+}
