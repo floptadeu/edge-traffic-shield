@@ -55,9 +55,8 @@ export function brokenBinding<T extends object>(name: string): T {
 
 // Stub de DO que nunca responde (simula DO sobrecarregado/sem resposta).
 export function hangingNamespace(): DurableObjectNamespace {
-  const stub = {
-    fetch: () => new Promise<Response>(() => {}),
-  } as unknown as DurableObjectStub;
+  const never = () => new Promise<never>(() => {});
+  const stub = new Proxy({}, { get: (_t, prop) => (prop === "then" ? undefined : never) }) as unknown as DurableObjectStub;
   return {
     idFromName: () => ({ toString: () => "hang" }) as unknown as DurableObjectId,
     get: () => stub,

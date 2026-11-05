@@ -4,14 +4,15 @@ export interface Env {
   // Bindings (wrangler.jsonc)
   CONFIG_KV: KVNamespace;
   DB: D1Database;
-  SHIELD_SHARD: DurableObjectNamespace;
-  TENANT_CONFIG: DurableObjectNamespace;
+  SHIELD_SHARD: DurableObjectNamespace<import("./do/ShieldShard").ShieldShard>;
+  TENANT_CONFIG: DurableObjectNamespace<import("./do/TenantConfig").TenantConfig>;
   EVENTS_QUEUE: Queue<unknown>;
 
   // Vars
   DO_TIMEOUT_MS?: string;
-  CHAOS_ENABLED?: string;
+  DEV_FEATURES?: string;
   PLATFORM_HOST?: string;
+  FALLBACK_ORIGIN?: string;
 
   // Secrets (wrangler secret put / .dev.vars)
   EVAL_KEY?: string; // chave do avaliador para o X-Eval-Context
