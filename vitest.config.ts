@@ -4,7 +4,7 @@ import { cloudflareTest, readD1Migrations } from "@cloudflare/vitest-plugin";
 
 // Os testes rodam DENTRO do runtime Workers (miniflare), com KV, D1, DO e Queue locais.
 export default defineConfig(async () => {
-  const migrations = await readD1Migrations(path.join(__dirname, "migrations"));
+  const migrations = await readD1Migrations(path.join(import.meta.dirname, "migrations"));
   return {
     test: {
       setupFiles: ["./test/setup.ts"],
