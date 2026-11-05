@@ -21,6 +21,8 @@ export default defineConfig(async () => {
             ADMIN_API_KEY: "ets_admin_test_key",
             COOKIE_SECRET: "test-cookie-secret",
             DEV_FEATURES: "true",
+            // Em teste o DO local pode demorar mais que 10 ms a frio; o timeout curto é testado com do-hang.
+            DO_TIMEOUT_MS: "2000",
           },
         },
       }),

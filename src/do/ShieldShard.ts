@@ -58,6 +58,7 @@ export class ShieldShard extends DurableObject<Env> {
   private rulesetVersion = 0;
   private lastPoll = 0;
   private polling: Promise<void> | null = null;
+  private booted = false;
 
   private counters = new Map<string, SlidingCounter>();
   private lastPrune = 0;
@@ -75,7 +76,7 @@ export class ShieldShard extends DurableObject<Env> {
 
   async evaluate(req: ShardRequest): Promise<ShardResponse> {
     this.bind(req.tenantId);
-    this.maybeRefreshRuleset(req.ts);
+    await this.maybeRefreshRuleset(req.ts);
     const rs = this.ruleset;
     const nowSec = Math.floor(req.ts / 1000);
 
@@ -202,15 +203,21 @@ export class ShieldShard extends DurableObject<Env> {
     }
   }
 
-  // Não bloqueia a requisição: a versão nova entra na próxima. Propagação
-  // típica: <= 2 s (intervalo) + alguns ms (KV da chave imutável).
-  private maybeRefreshRuleset(now: number): void {
+  // Depois do primeiro request não bloqueia: a versão nova entra na próxima.
+  // Propagação típica: <= 2 s (intervalo) + alguns ms (KV da chave imutável).
+  // No primeiro request do shard (DO recém-criado) espera até 500 ms para não
+  // atender com o ruleset default.
+  private async maybeRefreshRuleset(now: number): Promise<void> {
     if (this.polling || now - this.lastPoll < POLL_INTERVAL_MS) return;
     this.lastPoll = now;
     this.polling = this.refreshRuleset().finally(() => {
       this.polling = null;
     });
     this.ctx.waitUntil(this.polling);
+    if (!this.booted) {
+      this.booted = true;
+      await Promise.race([this.polling, new Promise((r) => setTimeout(r, 500))]);
+    }
   }
 
   private async refreshRuleset(): Promise<void> {
