@@ -20,7 +20,7 @@ export default defineConfig(async () => {
             EVAL_KEY: "test-eval-key",
             ADMIN_API_KEY: "ets_admin_test_key",
             COOKIE_SECRET: "test-cookie-secret",
-            CHAOS_ENABLED: "true",
+            DEV_FEATURES: "true",
           },
         },
       }),

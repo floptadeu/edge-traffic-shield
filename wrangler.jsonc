@@ -9,11 +9,13 @@
   "vars": {
     // Timeout da chamada ao Durable Object no hot path. Estourou => fail-open sem velocity.
     "DO_TIMEOUT_MS": "10",
-    // Permite o header X-Shield-Chaos para injetar falha de KV/DO/D1/Queue (demo e testes de fail-open).
+    // Recursos de dev/teste: X-Shield-Chaos (injeção de falha) e X-Shield-Host (simular hostname).
     // Em produção fica "false".
-    "CHAOS_ENABLED": "false",
+    "DEV_FEATURES": "false",
     // Hostname da plataforma (API de gestão). Vazio = API respondida em qualquer host em /__ets/api.
-    "PLATFORM_HOST": ""
+    "PLATFORM_HOST": "",
+    // Hostname de fallback origin da zona SaaS (alvo do CNAME dos clientes).
+    "FALLBACK_ORIGIN": ""
   },
 
   "kv_namespaces": [
