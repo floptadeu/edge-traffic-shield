@@ -123,7 +123,9 @@ Como o hostname registrado é o próprio `workers.dev`, a landing de demonstraç
 
 Crie um widget do tipo **Invisible** para o hostname e configure as duas chaves como secrets.
 O modo `SILENT_VERIFY` injeta um script que roda o Turnstile sem nada visível e manda o token
-para `/__ets/beacon`; a atestação vale para as requisições seguintes (R2).
+para `/__ets/beacon`; a atestação vale para as requisições seguintes (R2). Sem Turnstile, o
+beacon só aceita o token fresco entregue dentro do script (nunca o valor do cookie), como prova
+mínima de que a página foi executada.
 
 ## API de gestão (resumo)
 
@@ -178,5 +180,5 @@ src/do/TenantConfig.ts       DO por tenant: ponteiro da versão ativa (propagaç
 src/queue/consumer.ts        consumer idempotente → agregados e amostras no D1
 src/api/*.ts                 API de gestão
 src/lib/failopen.ts          safe(): timeout + fallback + registro de degradação (R3)
-test/*.test.ts               97 testes; fixtures/ e scripts/ para custo, carga e bootstrap
+test/*.test.ts               105 testes; fixtures/ e scripts/ para custo, carga e bootstrap
 ```

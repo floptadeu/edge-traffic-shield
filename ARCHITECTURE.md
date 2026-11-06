@@ -16,7 +16,8 @@ visitante ──► Worker (src/shield/pipeline.ts)
       sem resposta em 5 ms        → a chamada segue em waitUntil (evento e contadores não se perdem) e o Worker fecha a
                                   conta agora com a última velocity que o DO devolveu para este IP (src=fallback, "~late") [R3]
    8. aplica                      ALLOW: proxy · SILENT_VERIFY: proxy + <script> invisível · DECOY: proxy + HTMLRewriter (preços
-                                  embaralhados + link-armadilha oculto) · BLOCK: 403 curto. X-Shield-Debug explica tudo.
+                                  embaralhados + link-armadilha oculto que rotaciona a cada 10 min; JSON/texto também sai
+                                  embaralhado) · BLOCK: 403 curto. X-Shield-Debug explica tudo.
 DO ──(lote: 100 eventos ou 30 s)──► Queue ──► consumer idempotente (batch_id) ──► D1 stats_minute + amostra em events
 API (/__ets/api/v1) ──► D1 (verdade) ──► KV (compilado) ──► TenantConfig DO (ponteiro de versão, lido pelos shards a cada 2 s)
 ```
