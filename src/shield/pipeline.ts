@@ -18,6 +18,8 @@ import { BEACON_PATH, TRAP_PREFIX, blockResponse, decoyRewrite, injectAttestatio
 import type { Mode, Ruleset, Verdict } from "./ruleset";
 import { applyRules, evaluateSignals, formatContributions, scoreFrom, verdictFromScore, type Contribution } from "./score";
 import { SIGNALS, type SignalInput } from "./signals";
+import { trapSignal } from "./signals/trap";
+import { velocitySignal } from "./signals/velocity";
 import { STATIC_RE } from "./signals/path";
 import { deriveFingerprint } from "./signals/tls";
 import { parseUserAgent } from "./signals/ua";
@@ -97,7 +99,7 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
 
   let decision: Decision;
   try {
-    decision = await decideWithDurableObject(input, tenant, workerVersion, env, log, forced, started);
+    decision = await decideWithDurableObject(input, tenant, workerVersion, env, ctx, log, forced, started, request);
   } catch (err) {
     // Bug inesperado no caminho de decisão: nunca derruba o site.
     log.add("worker", err instanceof Error ? err.message : String(err));
@@ -126,15 +128,30 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
   return response;
 }
 
-// Uma chamada ao DO com timeout. Sem resposta a tempo: decide aqui sem velocity/trap.
+// Resposta tardia do DO por IP: se o DO não respondeu em 10 ms nesta
+// requisição, a resposta dele (que continua chegando via waitUntil) serve
+// de velocity/trap para a PRÓXIMA requisição do mesmo IP neste isolate.
+interface LateHint {
+  velocity: ShardResponse["velocity"];
+  trapHit: boolean;
+  rulesetVersion: number;
+  ts: number;
+}
+const lateHints = new Map<string, LateHint>();
+const LATE_HINT_TTL_MS = 60_000;
+
+// Uma chamada ao DO com timeout. Sem resposta a tempo: decide aqui com a
+// última velocity conhecida do IP (se houver) e sem esperar.
 async function decideWithDurableObject(
   input: SignalInput,
   tenant: TenantHost,
   workerVersion: number,
   env: Env,
+  ctx: ExecutionContext,
   log: DegradedLog,
   forced: ShardRequest["forced"],
   ts: number,
+  request: Request,
 ): Promise<Decision> {
   const { conn, url, ruleset } = input;
   const signals: SignalValue[] = forced ? [] : evaluateSignals(input, WORKER_SIGNALS).map((c) => ({ id: c.id, value: c.value, reason: c.reason }));
@@ -159,15 +176,30 @@ async function decideWithDurableObject(
   };
 
   const timeoutMs = Number(env.DO_TIMEOUT_MS ?? 10) || 10;
-  const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards);
-  const res = await safe<ShardResponse | null>("do", stub.evaluate(req), null, log, timeoutMs);
+  const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards, continentOf(request));
+  const hintKey = `${tenant.tenantId}:${conn.ip}`;
+  const call = stub.evaluate(req);
+  // O DO conclui mesmo se não esperarmos: evento registrado, contadores atualizados,
+  // e a resposta vira dica para a próxima requisição deste IP.
+  ctx.waitUntil(
+    call.then(
+      (r) => {
+        if (lateHints.size > 5000) lateHints.clear();
+        lateHints.set(hintKey, { velocity: r.velocity, trapHit: r.contributions.some((c) => c.id === "trap"), rulesetVersion: r.rulesetVersion, ts: Date.now() });
+        noteVersion(tenant.tenantId, r.rulesetVersion);
+      },
+      () => {},
+    ),
+  );
+  const res = await safe<ShardResponse | null>("do", call, null, log, timeoutMs);
 
   if (res) {
     noteVersion(tenant.tenantId, res.rulesetVersion);
     return { ...res, src: "do" };
   }
 
-  // Fallback: mesma conta, com o ruleset que o Worker tem, sem velocity/trap.
+  // Fallback: mesma conta, com o ruleset que o Worker tem; velocity/trap só se
+  // houver dica recente do DO para este IP.
   if (forced) {
     return { verdict: forced.verdict, applied: forced.verdict, mode: ruleset.mode, score: 0, contributions: [], rule: forced.reason, rulesetVersion: workerVersion, src: "fallback" };
   }
@@ -175,6 +207,17 @@ async function decideWithDurableObject(
     const weight = ruleset.weights[s.id] ?? 0;
     return { id: s.id, value: s.value, weight, points: s.value * weight, reason: s.reason };
   });
+  const late = lateHints.get(hintKey);
+  if (late && Date.now() - late.ts < LATE_HINT_TTL_MS) {
+    const local = { ruleset, velocity: late.velocity, trapHit: late.trapHit } as SignalInput;
+    for (const sig of [velocitySignal, trapSignal]) {
+      const r = sig.evaluate(local);
+      if (r) {
+        const weight = ruleset.weights[sig.id] ?? 0;
+        contributions.push({ id: sig.id, value: r.value, weight, points: r.value * weight, reason: `${r.reason}~late` });
+      }
+    }
+  }
   const score = scoreFrom(contributions);
   let verdict = verdictFromScore(score, ruleset);
   const rule = applyRules(ruleset.rules, { ...ruleCtx, score });
@@ -183,11 +226,30 @@ async function decideWithDurableObject(
   return { verdict, applied, mode: ruleset.mode, score, contributions, ...(rule ? { rule: rule.id } : {}), rulesetVersion: workerVersion, src: "fallback" };
 }
 
-export function shardFor(env: Env, tenantId: string, conn: ConnInfo, shards: number): DurableObjectStub<ShieldShard> {
-  // Mesmo IP sempre no mesmo shard (contagem por IP exata); DO fica na colo do visitante.
+// DOs não existem em toda colo: sem dica, o objeto pode nascer em outro
+// continente (medi ~110 ms GRU -> América do Norte). A dica de região entra
+// no nome e na criação do objeto.
+const CONTINENT_HINT: Record<string, DurableObjectLocationHint> = {
+  SA: "sam",
+  NA: "enam",
+  EU: "weur",
+  AS: "apac",
+  OC: "oc",
+  AF: "afr",
+};
+
+export function continentOf(request: Request): string {
+  const c = (request.cf as { continent?: unknown } | undefined)?.continent;
+  return typeof c === "string" ? c : "XX";
+}
+
+export function shardFor(env: Env, tenantId: string, conn: ConnInfo, shards: number, continent = "XX"): DurableObjectStub<ShieldShard> {
+  // Mesmo IP sempre no mesmo shard (contagem por IP exata); DO fica na região do visitante.
   const shard = fnv1a(conn.ip) % Math.max(1, shards);
-  const name = `${tenantId}:${conn.colo}:${shard}`;
-  return env.SHIELD_SHARD.get(env.SHIELD_SHARD.idFromName(name));
+  const hint = CONTINENT_HINT[continent];
+  const name = `${tenantId}:${conn.colo}:${hint ?? "auto"}:${shard}`;
+  const id = env.SHIELD_SHARD.idFromName(name);
+  return hint ? env.SHIELD_SHARD.get(id, { locationHint: hint }) : env.SHIELD_SHARD.get(id);
 }
 
 // --- aplicação do veredito -----------------------------------------------
@@ -315,7 +377,7 @@ async function handleTrap(request: Request, env: Env, ctx: ExecutionContext, ten
   if (given === expected) {
     const { conn } = await resolveConn(request, env);
     const { ruleset } = await loadRuleset(tenant.tenantId, env, log);
-    const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards);
+    const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards, continentOf(request));
     ctx.waitUntil(safe("do", stub.markTrap(conn.ip, Date.now()), undefined, log));
   }
   return new Response("Not Found\n", { status: 404, headers: { "content-type": "text/plain", "x-robots-tag": "noindex" } });
