@@ -5,7 +5,7 @@
 // Qualquer falha de KV/D1/DO/Queue vira ALLOW (R3) e aparece no header de debug.
 
 import type { Env } from "../env";
-import { fnv1a } from "../lib/crypto";
+import { fnv1a, timingSafeEqual } from "../lib/crypto";
 import { DegradedLog, safe } from "../lib/failopen";
 import type { ShardRequest, ShardResponse, SignalValue } from "../do/protocol";
 import type { ShieldShard } from "../do/ShieldShard";
@@ -27,6 +27,8 @@ import { loadRuleset, noteVersion, resolveTenant, type TenantHost } from "./tena
 
 // Sinais calculados no Worker. velocity e trap vivem no DO.
 const WORKER_SIGNALS = SIGNALS.filter((s) => s.id !== "velocity" && s.id !== "trap");
+
+const enc = new TextEncoder();
 
 interface Decision {
   verdict: Verdict;
@@ -288,7 +290,8 @@ async function applyVerdict(
     const scriptToken = await signValue(secret, { iat: nowSec, n: challenge.n, js: 1 });
     res = injectAttestation(res, scriptToken, env.TURNSTILE_SITE_KEY);
   } else if (d.applied === "DECOY") {
-    res = decoyRewrite(res, ruleset.decoy, `${TRAP_PREFIX}${await trapToken(secret, tenant.tenantId)}`);
+    const trap = secret ? `${TRAP_PREFIX}${await trapToken(secret, tenant.tenantId, Math.floor(Date.now() / TRAP_BUCKET_MS))}` : null;
+    res = await decoyRewrite(res, ruleset.decoy, trap);
   }
 
   // Resposta mutável (headers da origem podem ser imutáveis).
@@ -312,12 +315,19 @@ async function fetchOrigin(request: Request, tenant: TenantHost, url: URL, appli
   }
 }
 
+// Token do trap: rotaciona a cada 10 min (bucket de tempo dentro do HMAC). Um token
+// estático poderia ser extraído de uma página DECOY e embutido em <img> num site de
+// terceiro para envenenar o IP de visitantes inocentes; rotacionando, o token colhido
+// expira em <=20 min. Sem COOKIE_SECRET não existe trap (nada de fallback adivinhável).
+const TRAP_BUCKET_MS = 10 * 60_000;
 const trapMemo = new Map<string, string>();
-async function trapToken(secret: string, tenantId: string): Promise<string> {
-  let t = trapMemo.get(tenantId);
+async function trapToken(secret: string, tenantId: string, bucket: number): Promise<string> {
+  const k = `${tenantId}:${bucket}`;
+  let t = trapMemo.get(k);
   if (!t) {
-    t = (await signValue(secret || "no-secret", { t: tenantId })).split(".")[1]!.slice(0, 22);
-    trapMemo.set(tenantId, t);
+    t = (await signValue(secret, { t: tenantId, b: bucket })).split(".")[1]!.slice(0, 22);
+    if (trapMemo.size > 200) trapMemo.clear();
+    trapMemo.set(k, t);
   }
   return t;
 }
@@ -382,15 +392,26 @@ async function verifyTurnstile(secret: string, token: string, ip: string | null)
 
 // GET /__ets/t/<token>: só crawler chega aqui. Marca o IP no shard dele.
 async function handleTrap(request: Request, env: Env, ctx: ExecutionContext, tenant: TenantHost, url: URL, log: DegradedLog): Promise<Response> {
-  const expected = await trapToken(env.COOKIE_SECRET ?? "", tenant.tenantId);
+  const notFound = () => new Response("Not Found\n", { status: 404, headers: { "content-type": "text/plain", "x-robots-tag": "noindex" } });
+  const secret = env.COOKIE_SECRET;
+  if (!secret) return notFound();
+  // Browser real carregando o link embutido numa página de TERCEIRO manda
+  // sec-fetch-site: cross-site; bot seguindo o link da própria página DECOY não.
+  if (request.headers.get("sec-fetch-site") === "cross-site") return notFound();
   const given = url.pathname.slice(TRAP_PREFIX.length);
-  if (given === expected) {
+  const bucket = Math.floor(Date.now() / TRAP_BUCKET_MS);
+  // Aceita o bucket atual e o anterior (página DECOY servida perto da virada).
+  let hit = false;
+  for (const b of [bucket, bucket - 1]) {
+    if (timingSafeEqual(enc.encode(given), enc.encode(await trapToken(secret, tenant.tenantId, b)))) hit = true;
+  }
+  if (hit) {
     const { conn } = await resolveConn(request, env);
     const { ruleset } = await loadRuleset(tenant.tenantId, env, log);
     const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards, continentOf(request));
     ctx.waitUntil(safe("do", stub.markTrap(conn.ip, Date.now()), undefined, log));
   }
-  return new Response("Not Found\n", { status: 404, headers: { "content-type": "text/plain", "x-robots-tag": "noindex" } });
+  return notFound();
 }
 
 // request.cf real, com sobrescrita do X-Eval-Context quando (e só quando) assinado.

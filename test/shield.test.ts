@@ -62,6 +62,32 @@ describe("hot path", () => {
     expect(debugOf(after).signals).toContain("trap:1*45");
   });
 
+  it("DECOY não vaza preço real em JSON: /api/offers também sai embaralhado", async () => {
+    const t = await createTenant({ ruleset: { mode: "enforce" } });
+    const res = await visit(t.hostname, "/api/offers", { ...TOOL_HEADERS, "x-eval-context": await evalHeader(CONN.awsTool) });
+    expect(debugOf(res).applied).toBe("DECOY");
+    const data = (await res.json()) as { offers: Array<{ price: number }> };
+    expect(Array.isArray(data.offers)).toBe(true); // JSON continua válido
+    expect(data.offers.map((o) => o.price)).not.toEqual([1299, 4990]);
+  });
+
+  it("trap: cross-site não marca (humano com o link embutido em site de terceiro) e token de bucket velho não marca", async () => {
+    const t = await createTenant({ ruleset: { mode: "enforce" } });
+    const ctx = await evalHeader(CONN.awsTool, { ip: "3.120.10.78" });
+    const first = await visit(t.hostname, "/landing", { ...TOOL_HEADERS, "x-eval-context": ctx });
+    const trap = /href="(\/__ets\/t\/[^"]+)"/.exec(await first.text())?.[1];
+    expect(trap).toBeDefined();
+    // browser de visitante inocente carregando <img src=trap> embutido por terceiro
+    await visit(t.hostname, trap!, { ...TOOL_HEADERS, "x-eval-context": ctx, "sec-fetch-site": "cross-site" });
+    // token colhido há 20-30 min (2 buckets atrás): expirou
+    const oldBucket = Math.floor(Date.now() / 600_000) - 2;
+    const oldToken = (await signEvalContext({ t: t.id, b: oldBucket }, "test-cookie-secret")).split(".")[1]!.slice(0, 22);
+    await visit(t.hostname, `/__ets/t/${oldToken}`, { ...TOOL_HEADERS, "x-eval-context": ctx });
+    await new Promise((r) => setTimeout(r, 50));
+    const after = await visit(t.hostname, "/landing", { ...TOOL_HEADERS, "x-eval-context": ctx });
+    expect(debugOf(after).signals ?? "").not.toContain("trap:");
+  });
+
   it("rajada do mesmo IP sobe a velocity (janela deslizante no DO): sozinha não bloqueia humano, mas fecha a conta de um bot", async () => {
     const vel = { shards: 1, windowSec: 60, ip: 20, asn: 10000, fp: 10000, burstWindowSec: 5, ipBurst: 10 };
     const t = await createTenant({ ruleset: { mode: "enforce", velocity: vel } });
