@@ -46,14 +46,36 @@ function scrambleDigits(s: string): string {
   return s.replace(/\d/g, (d) => (d === "0" ? "0" : String(1 + Math.floor(Math.random() * 9))));
 }
 
-export function decoyRewrite(res: Response, decoy: Ruleset["decoy"], trapPath: string): Response {
-  if (!isHtml(res)) return res;
-  let rw = new HTMLRewriter().on("body", {
-    element(el) {
-      // Link que nenhum humano vê nem clica; crawler que segue vira "trap".
-      el.append(`<a href="${trapPath}" rel="nofollow" aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">.</a>`, { html: true });
-    },
-  });
+// Acima disso o corpo não-HTML passa intacto (ler tudo em memória feriria o p95).
+const DECOY_TEXT_MAX = 256 * 1024;
+
+export async function decoyRewrite(res: Response, decoy: Ruleset["decoy"], trapPath: string | null): Promise<Response> {
+  if (!isHtml(res)) {
+    // JSON/texto também carrega o dado que o DECOY protege (preço em endpoint de
+    // API). Embaralha os dígitos do corpo inteiro: mesmo tamanho, JSON continua
+    // válido, e o bot não contorna o DECOY trocando a página pelo /api.
+    const ct = res.headers.get("content-type") ?? "";
+    if (ct.includes("application/json") || ct.includes("text/plain")) {
+      try {
+        const body = await res.text();
+        const out = new Response(body.length <= DECOY_TEXT_MAX ? scrambleDigits(body) : body, res);
+        out.headers.set("x-robots-tag", "noindex, noarchive");
+        return out;
+      } catch {
+        return res; // fail-open
+      }
+    }
+    return res;
+  }
+  let rw = new HTMLRewriter();
+  if (trapPath) {
+    rw = rw.on("body", {
+      element(el) {
+        // Link que nenhum humano vê nem clica; crawler que segue vira "trap".
+        el.append(`<a href="${trapPath}" rel="nofollow" aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">.</a>`, { html: true });
+      },
+    });
+  }
   for (const selector of decoy.selectors) {
     rw = rw.on(selector, {
       text(t) {
