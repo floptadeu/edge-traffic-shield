@@ -54,6 +54,7 @@ export async function resolveTenant(hostname: string, env: Env, log: DegradedLog
     // Tudo falhou: usa o último valor conhecido mesmo vencido (melhor que derrubar o site).
     return m?.value ?? null;
   }
+  if (hostMemo.size > 1000) hostMemo.clear(); // sweep de hostnames não pode inflar o isolate
   hostMemo.set(h, { value, exp: Date.now() + HOST_MEMO_MS });
   return value;
 }
