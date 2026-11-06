@@ -52,7 +52,7 @@ describe("isolamento cross-tenant", () => {
     const ctx = await evalHeader(CONN.humanBR, { ip: "177.10.20.40" });
     let onA: Response | undefined;
     for (let i = 0; i < 8; i++) onA = await visit(a.hostname, "/landing", chromeHeaders({ "x-eval-context": ctx }));
-    expect(debugOf(onA!).signals).toContain("velocity:1*30");
+    expect(debugOf(onA!).signals).toContain("velocity:1*25");
     const onB = await visit(b.hostname, "/landing", chromeHeaders({ "x-eval-context": ctx }));
     expect(debugOf(onB).signals).not.toContain("velocity");
     expect(debugOf(onB).applied).toBe("ALLOW");

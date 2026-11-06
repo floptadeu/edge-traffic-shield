@@ -1,0 +1,18 @@
+
+
+== Carga: 30000 req em 64.7s (464 req/s efetivos, alvo 500) ==
+erros de transporte: 0
+status: {"200":29974,"403":26}
+vereditos calculados: {"ALLOW":21772,"SILENT_VERIFY":3083,"DECOY":5119,"BLOCK":26}
+latência de parede (cliente->resposta): p50=333.9ms p95=610.4ms p99=907.5ms max=2028.6ms
+overhead do Worker (Server-Timing ets): p50=28.0ms p95=55.0ms p99=90.0ms max=1673.0ms  [n=29918]
+função de custo no mix da carga: custo=8262 baseline=7764 -> 0/30
+
+== Estimativa de cota para esta rodada (4 shards × 1 colo) ==
+Workers requests : 31542 (+1542 beacons)              / 100.000 dia
+DO requests      : 30132 (1/req + 132 polls de versão)   / 100.000 dia
+KV leituras      : < 60 (memo por isolate; ~0 em regime)   / 100.000 dia
+KV escritas      : 0 no hot path (2 por publish de ruleset)        / 1.000 dia
+Queue operações  : ~936 (312 msgs × 3)                   / 10.000 dia
+D1 linhas escritas: ~21528                                     / 100.000 dia
+D1 queries/invocação consumer: 2 (SELECT + batch)                  / 50

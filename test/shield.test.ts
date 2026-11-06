@@ -69,7 +69,7 @@ describe("hot path", () => {
     const human = await evalHeader(CONN.humanBR, { ip: "177.10.20.88" });
     let last: Response | undefined;
     for (let i = 0; i < 14; i++) last = await visit(t.hostname, "/landing", chromeHeaders({ "x-eval-context": human }));
-    expect(debugOf(last!).signals).toContain("velocity:1*30");
+    expect(debugOf(last!).signals).toContain("velocity:1*25");
     expect(debugOf(last!).applied).toBe("ALLOW");
     expect(last!.status).toBe(200);
     // Assets não contam velocity nem passam pelo DO

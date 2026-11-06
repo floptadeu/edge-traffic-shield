@@ -32,9 +32,16 @@ function pickFixture() {
   return byLabel.human[0];
 }
 
-// Assina uma vez por fixture (iat vale 300 s; a carga dura ~60 s).
+// Por padrão espalha os IPs dentro do /16 de cada fixture (como visitantes
+// distintos). Com --hot-ips repete o IP da fixture e a velocity entra em cena.
+const hotIps = Boolean(args["hot-ips"]);
 const prepared = new Map();
 function prep(fx) {
+  if (!hotIps) {
+    const [a, b] = fx.ctx.ip.split(".");
+    const ip = `${a}.${b}.${1 + Math.floor(rnd() * 254)}.${1 + Math.floor(rnd() * 254)}`;
+    return fixtureRequest({ ...fx, ctx: { ...fx.ctx, ip } }, { baseUrl, host, evalKey });
+  }
   let p = prepared.get(fx.id);
   if (!p) {
     p = fixtureRequest(fx, { baseUrl, host, evalKey });
@@ -111,7 +118,7 @@ console.log(`vereditos calculados: ${JSON.stringify(verdicts)}`);
 console.log(`latência de parede (cliente->resposta): ${fmt(wall)}`);
 console.log(`overhead do Worker (Server-Timing ets): ${fmt(edge)}  [n=${edge.length}]`);
 const c = costOf(labelled.filter((l) => l.verdict));
-console.log(`função de custo no mix da carga: custo=${c.cost} baseline=${c.baseline} -> ${c.points}/30`);
+console.log(`função de custo no mix da carga${hotIps ? " (IPs repetidos: velocity ativa)" : ""}: custo=${c.cost} baseline=${c.baseline} -> ${c.points}/30`);
 
 // --- estimativa de cota (plano Free, por rodada de `total` requisições) -------------
 const shards = Number(args.shards ?? 4);

@@ -175,16 +175,18 @@ describe("velocity", () => {
   it("sem contadores (DO fora) não se aplica", () => expect(velocitySignal.evaluate(input())).toBeNull());
   it("abaixo de metade do limite = 0; no limite = 1; rampa no meio", () => {
     const base = { ip: 0, ipBurst: 0, asn: 0, fp: 0 };
-    expect(velocitySignal.evaluate(input({ velocity: { ...base, ip: 40 } }))?.value).toBe(0);
-    expect(velocitySignal.evaluate(input({ velocity: { ...base, ip: 90 } }))?.value).toBe(1);
-    const mid = velocitySignal.evaluate(input({ velocity: { ...base, ip: 68 } }))!.value;
+    const limit = DEFAULT_RULESET.velocity.ip;
+    expect(velocitySignal.evaluate(input({ velocity: { ...base, ip: Math.floor(limit * 0.4) } }))?.value).toBe(0);
+    expect(velocitySignal.evaluate(input({ velocity: { ...base, ip: limit } }))?.value).toBe(1);
+    const mid = velocitySignal.evaluate(input({ velocity: { ...base, ip: Math.round(limit * 0.75) } }))!.value;
     expect(mid).toBeGreaterThan(0.4);
     expect(mid).toBeLessThan(0.6);
   });
   it("rajada curta por IP também conta", () => {
-    const r = velocitySignal.evaluate(input({ velocity: { ip: 10, ipBurst: 30, asn: 0, fp: 0 } }));
+    const burst = DEFAULT_RULESET.velocity.ipBurst;
+    const r = velocitySignal.evaluate(input({ velocity: { ip: 10, ipBurst: burst, asn: 0, fp: 0 } }));
     expect(r?.value).toBe(1);
-    expect(r?.reason).toContain("burst=30/25");
+    expect(r?.reason).toContain(`burst=${burst}/${burst}`);
   });
 });
 
