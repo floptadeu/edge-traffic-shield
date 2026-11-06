@@ -1,18 +1,20 @@
 
 
-== Carga: 30000 req em 85.0s (353 req/s efetivos, alvo 500) ==
+== Carga: 30000 req em 72.5s (414 req/s efetivos, alvo 500) ==
 erros de transporte: 0
-status: {"200":29903,"403":97}
-vereditos calculados: {"ALLOW":23592,"DECOY":4919,"SILENT_VERIFY":1392,"BLOCK":97}
-latência de parede (cliente->resposta): p50=572.3ms p95=1090.8ms p99=1783.6ms max=3673.2ms
-overhead do Worker (Server-Timing ets): p50=44.0ms p95=116.0ms p99=1128.0ms max=2670.0ms  [n=29885]
-função de custo no mix da carga: custo=7731 baseline=7731 -> 0/30
+status: {"200":30000}
+vereditos calculados: {"ALLOW":23672,"SILENT_VERIFY":1438,"DECOY":4890}
+latência de parede (cliente->resposta): p50=457.3ms p95=855.8ms p99=1275.7ms max=2373.3ms
+overhead do Worker (Server-Timing ets): p50=40.0ms p95=96.0ms p99=147.0ms max=1682.0ms  [n=30000]
+por rótulo: {"human":{"ALLOW":20976},"scraper":{"SILENT_VERIFY":954,"DECOY":3310,"ALLOW":763},"headless":{"DECOY":1580,"ALLOW":1008,"SILENT_VERIFY":484},"crawler":{"ALLOW":925}}
+função de custo no mix da carga: custo=3209 baseline=8099 -> 18.1/30
 
 == Estimativa de cota para esta rodada (4 shards × 1 colo) ==
-Workers requests : 30696 (+696 beacons)              / 100.000 dia
-DO requests      : 30172 (1/req + 172 polls de versão)   / 100.000 dia
+Workers requests : 30719 (+719 beacons)              / 100.000 dia
+DO requests      : 30148 (1/req + 148 polls de versão)   / 100.000 dia
 KV leituras      : < 60 (memo por isolate; ~0 em regime)   / 100.000 dia
 KV escritas      : 0 no hot path (2 por publish de ruleset)        / 1.000 dia
 Queue operações  : ~936 (312 msgs × 3)                   / 10.000 dia
 D1 linhas escritas: ~21528                                     / 100.000 dia
 D1 queries/invocação consumer: 2 (SELECT + batch)                  / 50
+LOADDONE
