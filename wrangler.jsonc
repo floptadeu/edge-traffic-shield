@@ -19,14 +19,14 @@
   },
 
   "kv_namespaces": [
-    { "binding": "CONFIG_KV", "id": "00000000000000000000000000000000" }
+    { "binding": "CONFIG_KV", "id": "3921ae31ea314c5c9d6226e228c2cf43" }
   ],
 
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "ets-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "0dae5374-2a4b-4893-87d3-94d7daad5ddb",
       "migrations_dir": "migrations"
     }
   ],
