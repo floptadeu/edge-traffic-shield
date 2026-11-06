@@ -1,0 +1,3 @@
+== Carga: 5000 req em 13.8s (363 req/s efetivos, alvo 500) ==
+vereditos calculados: {"ALLOW":3966,"SILENT_VERIFY":220,"DECOY":814}
+função de custo no mix da carga (IPs repetidos: velocity ativa): custo=528 baseline=1342 -> 18.2/30

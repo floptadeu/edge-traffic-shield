@@ -1,0 +1,27 @@
+
+Matriz rótulo × veredito calculado
+label              ALLOW SILENT_VERIFY         DECOY         BLOCK         ERROR             ?
+human                160             0             0             0             0             0
+crawler               19             0             0             0             0             0
+scraper               18            22            80             0             0             0
+headless              26            13            41             0             0             0
+
+Humanos: 179 (bloqueados: 0)  Bots: 200 (liberados: 79)
+custo = 10×0 + 79 = 79   baseline (liberar tudo) = 200
+pontos estimados (bloco A) = 30 × max(0, 1 − 79/200) = 18.1 / 30
+
+Bots liberados (79), por motivo:
+   22  headers de Chrome Windows copiados, TLS de httpx,
+   18  curl-impersonate (TLS de Chrome)
+   13  headless com UA de Chrome Windows mas sec-ch-ua-platform Linux
+   12  Playwright + stealth (hints consistentes)
+    3  Playwright + stealth + proxy residencial MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A.
+    2  Playwright + stealth + proxy residencial Deutsche Telekom AG
+    2  Playwright + stealth + proxy residencial Claro NXT Telecomunicacoes Ltda
+    2  Playwright + stealth + proxy residencial Telecom Argentina S.A.
+    2  Playwright + stealth + proxy residencial Uninet S.A. de C.V.
+    1  Playwright + stealth + proxy residencial TELEFONICA BRASIL S.A
+    1  Playwright + stealth + proxy residencial Brisanet Servicos de Telecomunicacoes
+    1  Playwright + stealth + proxy residencial AT&T Services, Inc.
+
+Detalhes em results/fixtures-local.json

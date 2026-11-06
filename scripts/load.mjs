@@ -21,7 +21,14 @@ const mix = { human: 0.7, scraper: 0.17, headless: 0.1, crawler: 0.03 };
 const fixtures = loadFixtures(args.fixtures ?? "fixtures");
 const byLabel = Object.fromEntries(Object.keys(mix).map((l) => [l, fixtures.filter((f) => f.label === l)]));
 let seed = 7;
-const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+const rnd = () => {
+  // mulberry32 (o mesmo do gerador de fixtures); um LCG com multiplicação simples estoura a precisão do double
+  seed |= 0;
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
 function pickFixture() {
   const r = rnd();
   let acc = 0;
@@ -37,7 +44,8 @@ function pickFixture() {
 const hotIps = Boolean(args["hot-ips"]);
 const prepared = new Map();
 function prep(fx) {
-  if (!hotIps) {
+  // Crawlers mantêm o IP real: a verificação é por rDNS desse IP.
+  if (!hotIps && fx.label !== "crawler") {
     const [a, b] = fx.ctx.ip.split(".");
     const ip = `${a}.${b}.${1 + Math.floor(rnd() * 254)}.${1 + Math.floor(rnd() * 254)}`;
     return fixtureRequest({ ...fx, ctx: { ...fx.ctx, ip } }, { baseUrl, host, evalKey });
@@ -73,7 +81,7 @@ async function one(fx) {
     const d = parseDebug(res.headers.get("x-shield-debug"));
     verdicts[d.verdict ?? "?"] = (verdicts[d.verdict ?? "?"] ?? 0) + 1;
     statuses[res.status] = (statuses[res.status] ?? 0) + 1;
-    labelled.push({ expect: fx.expect, verdict: d.verdict });
+    labelled.push({ expect: fx.expect, label: fx.label, verdict: d.verdict });
   } catch {
     errors++;
   } finally {
@@ -117,6 +125,12 @@ console.log(`status: ${JSON.stringify(statuses)}`);
 console.log(`vereditos calculados: ${JSON.stringify(verdicts)}`);
 console.log(`latência de parede (cliente->resposta): ${fmt(wall)}`);
 console.log(`overhead do Worker (Server-Timing ets): ${fmt(edge)}  [n=${edge.length}]`);
+const perLabel = {};
+for (const l of labelled) {
+  perLabel[l.label] ??= {};
+  perLabel[l.label][l.verdict ?? "?"] = (perLabel[l.label][l.verdict ?? "?"] ?? 0) + 1;
+}
+console.log(`por rótulo: ${JSON.stringify(perLabel)}`);
 const c = costOf(labelled.filter((l) => l.verdict));
 console.log(`função de custo no mix da carga${hotIps ? " (IPs repetidos: velocity ativa)" : ""}: custo=${c.cost} baseline=${c.baseline} -> ${c.points}/30`);
 
