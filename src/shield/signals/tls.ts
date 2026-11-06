@@ -42,7 +42,8 @@ export const tlsSignal: Signal = {
       if (isCbcCipher(tlsCipher)) checks.push([0.8, "cbc-cipher"]);
       // ClientHello curto demais para um navegador atual (GREASE, ALPN, ML-KEM...).
       // Chrome não manda menos de ~500 bytes desde 2016: é quase decisivo.
-      if (len > 0) {
+      // Em HTTP/3 (QUIC) o tamanho reportado não é comparável: não avalia.
+      if (len > 0 && httpProtocol !== "HTTP/3") {
         if ((ua.family === "chrome" || ua.family === "edge") && len < 500) checks.push([0.9, `short-hello:${len}`]);
         else if (ua.family === "firefox" && len < 350) checks.push([0.8, `short-hello:${len}`]);
         else if (len < 200) checks.push([0.6, `short-hello:${len}`]);
