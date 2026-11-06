@@ -14,7 +14,7 @@ import { ATTEST_COOKIE, CHALLENGE_COOKIE, clearCookieHeader, cookieHeader, readA
 import { verifyCrawler } from "./crawler";
 import { demoOrigin } from "./demoOrigin";
 import { applyEvalContext } from "./evalContext";
-import { BEACON_PATH, TRAP_PREFIX, blockResponse, decoyRewrite, injectAttestation } from "./html";
+import { BEACON_PATH, TRAP_PREFIX, blockResponse, decoyRewrite, injectAttestation, isHtml } from "./html";
 import type { Mode, Ruleset, Verdict } from "./ruleset";
 import { applyRules, evaluateSignals, formatContributions, scoreFrom, verdictFromScore, type Contribution } from "./score";
 import { SIGNALS, type SignalInput } from "./signals";
@@ -271,16 +271,22 @@ async function applyVerdict(
   let res = await fetchOrigin(request, tenant, url, d.applied);
   const setCookies: string[] = [];
 
-  if (d.applied === "SILENT_VERIFY" && secret) {
+  if (d.applied === "SILENT_VERIFY" && secret && isHtml(res)) {
+    // Só em HTML: o script é injetado junto, então o desafio sempre chega a quem
+    // pode respondê-lo. Resposta JSON/asset não inicia desafio (um cliente de API
+    // legítimo nunca entraria no estado "challenged" que penaliza o score).
     // Reaproveita o desafio já emitido; senão emite um novo e grava o cookie.
-    let token: string;
+    let challenge: { iat: number; n: string };
     if (attestation.challenge) {
-      token = await signValue(secret, attestation.challenge);
+      challenge = attestation.challenge;
     } else {
-      token = await signValue(secret, { iat: nowSec, n: crypto.randomUUID().slice(0, 8) });
-      setCookies.push(cookieHeader(CHALLENGE_COOKIE, token, 86_400));
+      challenge = { iat: nowSec, n: crypto.randomUUID().slice(0, 8) };
+      setCookies.push(cookieHeader(CHALLENGE_COOKIE, await signValue(secret, challenge), 86_400));
     }
-    res = injectAttestation(res, token, env.TURNSTILE_SITE_KEY);
+    // O token do script NÃO é o valor do cookie: carrega js:1 e iat fresco. Quem só
+    // tem o cookie (cliente HTTP que não executa a página) não consegue atestar.
+    const scriptToken = await signValue(secret, { iat: nowSec, n: challenge.n, js: 1 });
+    res = injectAttestation(res, scriptToken, env.TURNSTILE_SITE_KEY);
   } else if (d.applied === "DECOY") {
     res = decoyRewrite(res, ruleset.decoy, `${TRAP_PREFIX}${await trapToken(secret, tenant.tenantId)}`);
   }
@@ -332,6 +338,11 @@ async function handleBeacon(request: Request, env: Env, tenant: TenantHost, log:
   }
   const challenge = await verifyValue(secret, typeof body.c === "string" ? body.c : undefined);
   if (!challenge) return noContent();
+  const nowSec = Math.floor(Date.now() / 1000);
+  // Só o token entregue DENTRO do script (js:1) atesta — o valor do cookie não serve.
+  // E tem que ser fresco (10 min): sem isso o token seria replayável para sempre.
+  if (challenge.js !== 1 || typeof challenge.iat !== "number" || nowSec - challenge.iat > 600 || challenge.iat - nowSec > 60)
+    return noContent();
 
   const { version: _v, ruleset } = await loadRuleset(tenant.tenantId, env, log);
   let kind: "ts" | "js" | null = null;
@@ -348,7 +359,6 @@ async function handleBeacon(request: Request, env: Env, tenant: TenantHost, log:
   // Mesmo fingerprint que o hot path (inclusive com X-Eval-Context assinado).
   const { conn } = await resolveConn(request, env);
   const fp = deriveFingerprint(conn, parseUserAgent(request.headers.get("user-agent")));
-  const nowSec = Math.floor(Date.now() / 1000);
   const att = await signValue(secret, { exp: nowSec + ruleset.attestation.ttlSec, fp, k: kind });
   const res = noContent();
   res.headers.append("set-cookie", cookieHeader(ATTEST_COOKIE, att, ruleset.attestation.ttlSec));

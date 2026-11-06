@@ -2,7 +2,7 @@
 // X-Eval-Context integrado, SILENT_VERIFY sem fricção (R2) e atestação assíncrona.
 import { describe, expect, it } from "vitest";
 import { CONN, createTenant, debugOf, evalHeader, visit } from "./e2e";
-import { CHROME_UA, chromeHeaders } from "./helpers";
+import { CHROME_UA, chromeHeaders, nowSec, signEvalContext } from "./helpers";
 
 const TOOL_HEADERS = { "user-agent": "python-requests/2.32.3", accept: "*/*", "accept-encoding": "gzip, deflate" };
 
@@ -138,6 +138,39 @@ describe("hot path", () => {
     await new Promise((r) => setTimeout(r, 2100));
     const later = await visit(t.hostname, "/landing", chromeHeaders({ "x-eval-context": ctx, cookie: `__ets_c=${c}` }));
     expect(debugOf(later).signals).toContain("attestation:0.7*30");
+  }, 10_000);
+
+  it("beacon rejeita o valor do cookie e token js com iat velho (só atesta o token fresco do script)", async () => {
+    const t = await createTenant({ ruleset: { mode: "enforce" } });
+    const ctx = await evalHeader(CONN.aws, { ip: "3.120.10.101", httpProtocol: "HTTP/1.1" });
+    const res = await visit(t.hostname, "/landing", chromeHeaders({ "x-eval-context": ctx }));
+    const cookieToken = /__ets_c=([^;]+)/.exec(res.headers.get("set-cookie") ?? "")?.[1];
+    expect(cookieToken).toBeDefined();
+    const beaconWith = (c: string) =>
+      visit(t.hostname, "/__ets/beacon", chromeHeaders({ "x-eval-context": ctx, "content-type": "application/json" }), {
+        method: "POST",
+        body: JSON.stringify({ c, t: "" }),
+      });
+    // curl que só tem o cookie (nunca executou a página): sem atestação
+    const b1 = await beaconWith(cookieToken!);
+    expect(b1.status).toBe(204);
+    expect(b1.headers.get("set-cookie") ?? "").not.toContain("__ets_att=");
+    // token js assinado mas velho (1h): replay rejeitado
+    const stale = await signEvalContext({ iat: nowSec() - 3600, n: "abcd1234", js: 1 }, "test-cookie-secret");
+    const b2 = await beaconWith(stale);
+    expect(b2.headers.get("set-cookie") ?? "").not.toContain("__ets_att=");
+  });
+
+  it("R2/score: SILENT_VERIFY em resposta não-HTML não seta desafio (cliente de API não acumula penalidade)", async () => {
+    const t = await createTenant({ ruleset: { mode: "enforce", attestation: { ttlSec: 3600, challengeGraceSec: 1 } } });
+    const ctx = await evalHeader(CONN.aws, { ip: "3.120.10.102", httpProtocol: "HTTP/1.1" });
+    const res = await visit(t.hostname, "/api/offers", chromeHeaders({ "x-eval-context": ctx }));
+    expect(debugOf(res).applied).toBe("SILENT_VERIFY");
+    expect(res.headers.get("set-cookie") ?? "").not.toContain("__ets_c=");
+    // sem desafio emitido, não existe "challenge-ignored" depois da carência
+    await new Promise((r) => setTimeout(r, 1100));
+    const later = await visit(t.hostname, "/api/offers", chromeHeaders({ "x-eval-context": ctx }));
+    expect(debugOf(later).signals ?? "").not.toContain("attestation:0.7");
   }, 10_000);
 
   it("hostname desconhecido não é proxiado", async () => {
