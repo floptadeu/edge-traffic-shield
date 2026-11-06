@@ -12,6 +12,7 @@ const FB_UA = "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uat
 // Resolvedor falso: só 66.249.66.1 e 40.77.167.1 têm rDNS confirmado.
 const fake: Resolver = {
   async ptr(ip) {
+    if (ip === "2001:4860:4801:0012:0000:0000:0000:0064") return ["crawl-google-v6.googlebot.com"]; // canônico
     if (ip === "66.249.66.1") return ["crawl-66-249-66-1.googlebot.com"];
     if (ip === "66.249.66.2") return ["crawl-66-249-66-2.googlebot.com"];
     if (ip === "40.77.167.1") return ["msnbot-40-77-167-1.search.msn.com"];
@@ -20,6 +21,7 @@ const fake: Resolver = {
     return [];
   },
   async addr(name) {
+    if (name === "crawl-google-v6.googlebot.com") return ["2001:4860:4801:12:0:0:0:64"]; // forma não comprimida do DoH
     if (name === "crawl-66-249-66-1.googlebot.com") return ["66.249.66.1"];
     if (name === "crawl-66-249-66-2.googlebot.com") return ["66.249.66.2"];
     if (name === "msnbot-40-77-167-1.search.msn.com") return ["40.77.167.1"];
@@ -52,6 +54,18 @@ describe("R1 — crawlers verificados", () => {
       expect(d.applied).toBe("ALLOW");
       expect(d.forced).toContain("verified-crawler:google");
     }
+  });
+
+  it("Googlebot em IPv6: formas textuais diferentes (::64 vs :0:0:0:64) ainda confirmam, nunca 'spoofed'", async () => {
+    crawlerDeps.resolver = fake;
+    // cf-connecting-ip comprimido; o AAAA do resolvedor volta não comprimido.
+    const r = await verifyCrawler(GOOGLEBOT_UA, "2001:4860:4801:12::64", 396982);
+    expect(r.status).toBe("verified");
+    const t = await createTenant({ ruleset: HOSTILE });
+    const ctx = await evalHeader(CONN.aws, { ip: "2001:4860:4801:12::64", asn: 396982, asOrganization: "Google LLC" });
+    const res = await visit(t.hostname, "/landing", { "user-agent": GOOGLEBOT_UA, accept: "*/*", "x-eval-context": ctx });
+    expect(debugOf(res).applied).toBe("ALLOW");
+    expect(debugOf(res).forced).toContain("verified-crawler:google");
   });
 
   it("bingbot verificado também; facebookexternalhit verificado pelo AS32934", async () => {

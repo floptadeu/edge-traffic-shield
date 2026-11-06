@@ -65,14 +65,22 @@ async function dohQuery(name: string, type: "PTR" | "A" | "AAAA"): Promise<strin
   return (json.Answer ?? []).filter((a) => a.type === want).map((a) => a.data.replace(/\.$/, "").toLowerCase());
 }
 
+// IPv6 em forma canônica (8 grupos de 4 nibbles, minúsculas): "2001:...:0:0:0:64" e
+// "2001:...::64" viram a MESMA string. Sem isso, a comparação textual do FCrDNS marcava
+// crawler legítimo como spoofed quando o DoH e o cf-connecting-ip usavam formas diferentes.
+export function canonIp(ip: string): string {
+  if (!ip.includes(":")) return ip; // IPv4 já é canônico
+  const parts = ip.toLowerCase().split("::");
+  const head = parts[0] ? parts[0].split(":") : [];
+  const tail = parts[1] ? parts[1].split(":") : [];
+  const missing = 8 - head.length - tail.length;
+  return [...head, ...Array(parts.length > 1 ? missing : 0).fill("0"), ...tail].map((h) => h.padStart(4, "0")).join(":");
+}
+
 export function reverseName(ip: string): string {
   if (ip.includes(":")) {
     // IPv6: expande e inverte nibble a nibble
-    const parts = ip.split("::");
-    const head = parts[0] ? parts[0].split(":") : [];
-    const tail = parts[1] ? parts[1].split(":") : [];
-    const missing = 8 - head.length - tail.length;
-    const full = [...head, ...Array(parts.length > 1 ? missing : 0).fill("0"), ...tail].map((h) => h.padStart(4, "0")).join("");
+    const full = canonIp(ip).replaceAll(":", "");
     return `${full.split("").reverse().join(".")}.ip6.arpa`;
   }
   return `${ip.split(".").reverse().join(".")}.in-addr.arpa`;
@@ -145,6 +153,7 @@ export async function verifyCrawler(
   const asns = ASN_VERIFIED[family];
   if (asns && asns.includes(asn)) return { status: "verified", family, via: `asn:${asn}` };
 
+  ip = canonIp(ip); // forma canônica para comparação e chave de cache
   const cached = await cacheGet(family, ip);
   if (cached) return { status: cached.status, family, via: `cache:${cached.via}` };
 
@@ -153,8 +162,8 @@ export async function verifyCrawler(
     const suffixes = RDNS_SUFFIXES[family];
     for (const name of names) {
       if (!suffixes.some((s) => name.endsWith(s))) continue;
-      const addrs = await crawlerDeps.resolver.addr(name);
-      if (addrs.includes(ip.toLowerCase())) {
+      const addrs = (await crawlerDeps.resolver.addr(name)).map(canonIp);
+      if (addrs.includes(ip)) {
         cachePut(family, ip, "verified", `rdns:${name}`, ctx);
         return { status: "verified", family, via: `rdns:${name}` };
       }
