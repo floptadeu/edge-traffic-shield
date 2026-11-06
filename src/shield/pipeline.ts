@@ -54,10 +54,7 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
   if (url.pathname.startsWith(TRAP_PREFIX)) return handleTrap(request, env, ctx, tenant, url, log);
 
   // --- contexto da conexão (real ou do avaliador) ---
-  const real = connFromRequest(request);
-  const evalRes = await applyEvalContext(request.headers.get("x-eval-context"), env.EVAL_KEY, real);
-  const conn = evalRes.status === "accepted" ? evalRes.conn : real;
-  const evalTag = evalRes.status === "rejected" ? `rejected:${evalRes.reason}` : evalRes.status;
+  const { conn, evalTag } = await resolveConn(request, env);
 
   const ua = parseUserAgent(request.headers.get("user-agent"));
   const fingerprint = deriveFingerprint(conn, ua);
@@ -274,7 +271,8 @@ async function handleBeacon(request: Request, env: Env, tenant: TenantHost, log:
   }
   if (!kind) return noContent();
 
-  const conn = connFromRequest(request);
+  // Mesmo fingerprint que o hot path (inclusive com X-Eval-Context assinado).
+  const { conn } = await resolveConn(request, env);
   const fp = deriveFingerprint(conn, parseUserAgent(request.headers.get("user-agent")));
   const nowSec = Math.floor(Date.now() / 1000);
   const att = await signValue(secret, { exp: nowSec + ruleset.attestation.ttlSec, fp, k: kind });
@@ -303,12 +301,22 @@ async function handleTrap(request: Request, env: Env, ctx: ExecutionContext, ten
   const expected = await trapToken(env.COOKIE_SECRET ?? "", tenant.tenantId);
   const given = url.pathname.slice(TRAP_PREFIX.length);
   if (given === expected) {
-    const conn = connFromRequest(request);
+    const { conn } = await resolveConn(request, env);
     const { ruleset } = await loadRuleset(tenant.tenantId, env, log);
     const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards);
     ctx.waitUntil(safe("do", stub.markTrap(conn.ip, Date.now()), undefined, log));
   }
   return new Response("Not Found\n", { status: 404, headers: { "content-type": "text/plain", "x-robots-tag": "noindex" } });
+}
+
+// request.cf real, com sobrescrita do X-Eval-Context quando (e só quando) assinado.
+async function resolveConn(request: Request, env: Env): Promise<{ conn: ConnInfo; evalTag: string }> {
+  const real = connFromRequest(request);
+  const ev = await applyEvalContext(request.headers.get("x-eval-context"), env.EVAL_KEY, real);
+  return {
+    conn: ev.status === "accepted" ? ev.conn : real,
+    evalTag: ev.status === "rejected" ? `rejected:${ev.reason}` : ev.status,
+  };
 }
 
 // Em dev/teste: X-Shield-Host simula o hostname do cliente contra localhost.

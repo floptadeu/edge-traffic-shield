@@ -7,7 +7,7 @@
 import { handleApi } from "./api";
 import type { EventBatchMessage } from "./do/protocol";
 import type { Env } from "./env";
-import { brokenBinding, hangingNamespace } from "./lib/failopen";
+import { brokenBinding, brokenNamespace, hangingNamespace } from "./lib/failopen";
 import { consumeEvents } from "./queue/consumer";
 import { handleShield } from "./shield/pipeline";
 
@@ -38,7 +38,7 @@ function applyChaos(request: Request, env: Env): Env {
   const out: Env = { ...env };
   if (broken.has("kv")) out.CONFIG_KV = brokenBinding<KVNamespace>("kv");
   if (broken.has("d1")) out.DB = brokenBinding<D1Database>("d1");
-  if (broken.has("do")) out.SHIELD_SHARD = brokenBinding<Env["SHIELD_SHARD"]>("do");
+  if (broken.has("do")) out.SHIELD_SHARD = brokenNamespace() as unknown as Env["SHIELD_SHARD"];
   if (broken.has("do-hang")) out.SHIELD_SHARD = hangingNamespace() as unknown as Env["SHIELD_SHARD"];
   if (broken.has("queue")) out.EVENTS_QUEUE = brokenBinding<Queue<unknown>>("queue");
   return out;

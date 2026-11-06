@@ -53,6 +53,17 @@ export function brokenBinding<T extends object>(name: string): T {
   });
 }
 
+// Namespace de DO em que toda chamada RPC rejeita (simula DO com erro).
+export function brokenNamespace(): DurableObjectNamespace {
+  const stub = new Proxy({}, {
+    get: (_t, prop) => (prop === "then" ? undefined : () => Promise.reject(new Error(`chaos:do.${String(prop)}`))),
+  }) as unknown as DurableObjectStub;
+  return {
+    idFromName: () => ({ toString: () => "broken" }) as unknown as DurableObjectId,
+    get: () => stub,
+  } as unknown as DurableObjectNamespace;
+}
+
 // Stub de DO que nunca responde (simula DO sobrecarregado/sem resposta).
 export function hangingNamespace(): DurableObjectNamespace {
   const never = () => new Promise<never>(() => {});

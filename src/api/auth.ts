@@ -5,7 +5,7 @@
 // Chaves nunca são guardadas em claro: D1 tem sha256(secret).
 
 import type { Env } from "../env";
-import { hmacSha256Base64url, randomToken, sha256Hex, timingSafeEqual } from "../lib/crypto";
+import { hmacSha256Base64url, randomAlnum, sha256Hex, timingSafeEqual } from "../lib/crypto";
 import { ApiError } from "./http";
 
 export type Principal =
@@ -25,7 +25,7 @@ export async function authenticate(request: Request, env: Env, url: URL): Promis
     const key = auth.slice(7).trim();
     // Admin: compara hashes para a comparação ser de tamanho fixo e tempo constante.
     if (env.ADMIN_API_KEY && safeEqualStr(await sha256Hex(key), await sha256Hex(env.ADMIN_API_KEY))) return { role: "admin" };
-    const m = /^ets_([A-Za-z0-9_-]{6,32})_([A-Za-z0-9_-]{16,})$/.exec(key);
+    const m = /^ets_([A-Za-z0-9]{8})_([A-Za-z0-9]{32})$/.exec(key);
     if (m) {
       const row = await env.DB.prepare("SELECT key_hash, tenant_id, role, revoked_at FROM api_keys WHERE key_id = ?")
         .bind(m[1])
@@ -71,8 +71,8 @@ export function requireAdmin(p: Principal): void {
 
 // Gera uma chave nova. O segredo é devolvido UMA vez; só o hash fica no D1.
 export async function createApiKey(env: Env, tenantId: string | null, role: "admin" | "tenant"): Promise<{ keyId: string; apiKey: string }> {
-  const keyId = randomToken(6).replace(/[^A-Za-z0-9]/g, "a").slice(0, 8);
-  const secret = randomToken(24);
+  const keyId = randomAlnum(8);
+  const secret = randomAlnum(32);
   await env.DB.prepare("INSERT INTO api_keys (key_id, key_hash, tenant_id, role, created_at) VALUES (?, ?, ?, ?, ?)")
     .bind(keyId, await sha256Hex(secret), tenantId, role, Date.now())
     .run();

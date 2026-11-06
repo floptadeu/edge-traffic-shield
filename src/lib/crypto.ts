@@ -67,6 +67,16 @@ export function randomToken(bytes = 24): string {
   return base64urlEncode(buf);
 }
 
+// Token só com [A-Za-z0-9] (para chaves no formato ets_<id>_<segredo>).
+const ALNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+export function randomAlnum(length: number): string {
+  const buf = new Uint8Array(length);
+  crypto.getRandomValues(buf);
+  let out = "";
+  for (const b of buf) out += ALNUM[b % ALNUM.length];
+  return out;
+}
+
 // Hash não criptográfico e barato (FNV-1a 32 bits) para escolher shard e
 // anonimizar IP em agregados. Não é segredo, é só distribuição.
 export function fnv1a(s: string): number {
