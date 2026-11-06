@@ -1,11 +1,21 @@
 // API de gestão: autenticação com hash, paginação por cursor, links HMAC com TTL,
 // versões de ruleset com rollback e propagação <= 5 s sem deploy.
-import { env } from "cloudflare:test";
+import { createExecutionContext, env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
+import worker from "../src/index";
 import { api, CONN, createTenant, debugOf, evalHeader, sleep, visit } from "./e2e";
 import { chromeHeaders } from "./helpers";
 
 describe("autenticação", () => {
+  it("PLATFORM_HOST setado: API de gestão só responde no host da plataforma", async () => {
+    const e = { ...env, PLATFORM_HOST: "platform.test" };
+    const auth = { authorization: "Bearer ets_admin_test_key" };
+    const blocked = await worker.fetch(new Request("https://cliente.qualquer.test/__ets/api/v1/me", { headers: auth }), e, createExecutionContext());
+    expect(blocked.status).toBe(404);
+    const ok = await worker.fetch(new Request("https://platform.test/__ets/api/v1/me", { headers: auth }), e, createExecutionContext());
+    expect(ok.status).toBe(200);
+  });
+
   it("sem chave 401; chave inválida 401; admin ok", async () => {
     expect((await api("/v1/me", { key: null })).status).toBe(401);
     expect((await api("/v1/me", { key: "ets_abcdefgh_naoexiste00000000000000" })).status).toBe(401);
@@ -38,6 +48,10 @@ describe("tenants e domínios", () => {
     const ids = ["pag-a", "pag-b", "pag-c"];
     for (const id of ids) expect((await api("/v1/tenants", { body: { id, name: id, origin: "https://origem.exemplo/" } })).status).toBe(201);
     expect((await api("/v1/tenants", { body: { id: "pag-a", name: "dup", origin: "demo" } })).status).toBe(409);
+    // ruleset inválido não grava nada: o mesmo id tem que funcionar em seguida (sem órfão)
+    expect((await api("/v1/tenants", { body: { id: "sem-orfao", name: "x", origin: "demo", ruleset: { mode: "bogus" } } })).status).toBe(400);
+    expect((await api("/v1/tenants", { body: { id: "sem-orfao", name: "x", origin: "demo" } })).status).toBe(201);
+    expect((await api("/v1/tenants/sem-orfao")).status).toBe(200);
     // Percorre todas as páginas de 2 em 2: sem repetir, sem pular, em ordem.
     const all: string[] = [];
     let cursor: string | null = null;

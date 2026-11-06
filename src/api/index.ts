@@ -66,15 +66,16 @@ route("POST", "/v1/tenants", async ({ request, env, principal }) => {
   if (!id) throw new ApiError(400, "id: minúsculas, dígitos e hífen (2-31 chars)");
   if (typeof b.name !== "string" || !b.name) throw new ApiError(400, "name obrigatório");
   if (!validOrigin(b.origin)) throw new ApiError(400, 'origin: URL https://... (raiz) ou "demo"');
+  // Valida TUDO antes de escrever: ruleset inválido não pode deixar tenant órfão
+  // (INSERT feito + 400 = id queimado no 409 do retry).
+  const initial = b.ruleset === undefined ? { ok: true as const, ruleset: DEFAULT_RULESET } : validateRuleset(b.ruleset);
+  if (!initial.ok) throw new ApiError(400, "ruleset inválido", initial.errors);
   const exists = await env.DB.prepare("SELECT 1 FROM tenants WHERE id = ?").bind(id).first();
   if (exists) throw new ApiError(409, "tenant já existe");
   const now = Date.now();
   await env.DB.prepare("INSERT INTO tenants (id, name, origin, ruleset_version, created_at, updated_at) VALUES (?, ?, ?, 0, ?, ?)")
     .bind(id, b.name, b.origin, now, now)
     .run();
-  // Ruleset inicial: defaults em modo monitor (ou o enviado no corpo).
-  const initial = b.ruleset === undefined ? { ok: true as const, ruleset: DEFAULT_RULESET } : validateRuleset(b.ruleset);
-  if (!initial.ok) throw new ApiError(400, "ruleset inválido", initial.errors);
   const version = await publishRuleset(env, id, initial.ruleset, "inicial");
   const key = await createApiKey(env, id, "tenant");
   return json({ tenant: await getTenant(env, id), ruleset_version: version, api_key: key.apiKey, key_id: key.keyId }, 201);
