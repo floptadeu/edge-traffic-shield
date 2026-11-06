@@ -1,0 +1,3019 @@
+[
+ {
+  "id": "scraper-001",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.150.91",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 272,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-002",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 141 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.150.232",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 402,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-003",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "python-requests/2.33.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.223.105",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 290,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-requests/2.33.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-004",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "Scrapy/2.9 (+https://scrapy.org) em OVH SAS",
+  "ctx": {
+   "ip": "51.75.33.225",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 297,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.9 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-005",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.123.232",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 364,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-006",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "python-httpx/0.26.0 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.48.201",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 361,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.26.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-007",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "python-requests/2.33.0 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.12.19",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 386,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-requests/2.33.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-008",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "requests com UA de Chrome 127 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.58.2",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 354,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-009",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 135 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.37.98",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 369,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-010",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "Go-http-client/2.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.238.56",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 328,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-011",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "python-httpx/0.25.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.93.168",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 348,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.25.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-012",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "Java/17.0.11 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.35.163",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.2",
+   "tlsCipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 296,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Java/17.0.11",
+   "accept": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"
+  }
+ },
+ {
+  "id": "scraper-013",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl-impersonate (TLS de Chrome) em Brisanet Servicos de Telecomunicacoes (proxy residencial)",
+  "ctx": {
+   "ip": "45.160.68.168",
+   "asn": 53006,
+   "asOrganization": "Brisanet Servicos de Telecomunicacoes",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1817,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"129\", \"Google Chrome\";v=\"129\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-014",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 140 em OVH SAS",
+  "ctx": {
+   "ip": "51.75.57.130",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 369,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-015",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl-impersonate (TLS de Chrome) em TIM SA (proxy residencial)",
+  "ctx": {
+   "ip": "189.40.56.23",
+   "asn": 26599,
+   "asOrganization": "TIM SA",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 1812,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"135\", \"Google Chrome\";v=\"135\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-016",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 135 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.53.66",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 290,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-017",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 134 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.191.81",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 356,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-018",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl-impersonate (TLS de Chrome) em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.239.112",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1888,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"141\", \"Google Chrome\";v=\"141\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-019",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "UA vazio em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.112.108",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 379,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-020",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "Go-http-client/2.0 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.90.144",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 244,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-021",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 127 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.186.217",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 348,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-022",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 123 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.235.38",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 341,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-023",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 124 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.129.249",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 357,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-024",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "UA vazio em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.214.247",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 365,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-025",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl/8.8.0 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.223.43",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 485,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "curl/8.8.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-026",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Google LLC",
+  "ctx": {
+   "ip": "34.90.139.159",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 302,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-027",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 121 em Google LLC",
+  "ctx": {
+   "ip": "34.90.117.64",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 381,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-028",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 127 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.131.158",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 385,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-029",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "requests com UA de Chrome 139 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.113.238",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 399,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-030",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "requests com UA de Chrome 133 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.145.93",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 382,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-031",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 141 em Google LLC",
+  "ctx": {
+   "ip": "34.90.164.130",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 348,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-032",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "UA vazio em Google LLC",
+  "ctx": {
+   "ip": "34.90.168.5",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 387,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-033",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl-impersonate (TLS de Chrome) em Uninet S.A. de C.V. (proxy residencial)",
+  "ctx": {
+   "ip": "187.190.63.195",
+   "asn": 8151,
+   "asOrganization": "Uninet S.A. de C.V.",
+   "country": "MX",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1856,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-034",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "Java/17.0.12 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.127.37",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.2",
+   "tlsCipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 201,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Java/17.0.12",
+   "accept": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"
+  }
+ },
+ {
+  "id": "scraper-035",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 129 em Google LLC",
+  "ctx": {
+   "ip": "34.90.139.125",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 333,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-036",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "Scrapy/2.13 (+https://scrapy.org) em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.249.68",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 294,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.13 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-037",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "python-requests/2.32.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.12.116",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 334,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-requests/2.32.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-038",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl/8.6.0 em Google LLC",
+  "ctx": {
+   "ip": "34.90.209.124",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 519,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "curl/8.6.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-039",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "Scrapy/2.13 (+https://scrapy.org) em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.53.31",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 318,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.13 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-040",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "Go-http-client/2.0 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.20.5",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 239,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-041",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl/8.6.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.68.134",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 332,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "curl/8.6.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-042",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "Java/17.0.9 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.152.133",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.2",
+   "tlsCipher": "ECDHE-RSA-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 239,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Java/17.0.9",
+   "accept": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"
+  }
+ },
+ {
+  "id": "scraper-043",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "python-httpx/0.26.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.111.223",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 348,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.26.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-044",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "curl-impersonate (TLS de Chrome) em Telecom Argentina S.A. (proxy residencial)",
+  "ctx": {
+   "ip": "181.47.131.227",
+   "asn": 7303,
+   "asOrganization": "Telecom Argentina S.A.",
+   "country": "AR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1776,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"135\", \"Google Chrome\";v=\"135\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-045",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.61.26",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 295,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"137\", \"Google Chrome\";v=\"137\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-046",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "python-httpx/0.28.0 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.190.183",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 374,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.28.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-047",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 140 em Google LLC",
+  "ctx": {
+   "ip": "34.90.60.200",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 391,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-048",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "curl-impersonate (TLS de Chrome) em TIM SA (proxy residencial)",
+  "ctx": {
+   "ip": "189.40.30.3",
+   "asn": 26599,
+   "asOrganization": "TIM SA",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1828,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"134\", \"Google Chrome\";v=\"134\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-049",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "UA vazio em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.174.5",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 337,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-050",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 138 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.29.64",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 430,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-051",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.225.186",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 259,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-052",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "curl-impersonate (TLS de Chrome) em Claro NXT Telecomunicacoes Ltda (proxy residencial)",
+  "ctx": {
+   "ip": "177.10.223.92",
+   "asn": 28573,
+   "asOrganization": "Claro NXT Telecomunicacoes Ltda",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1862,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-053",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "python-requests/2.32.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.98.15",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 407,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-requests/2.32.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-054",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl-impersonate (TLS de Chrome) em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.158.81",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 1747,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-055",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "Go-http-client/2.0 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.175.105",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 265,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-056",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "axios/1.8.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.211.249",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 396,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "axios/1.8.0",
+   "accept": "application/json, text/plain, */*",
+   "accept-encoding": "gzip, compress, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-057",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl-impersonate (TLS de Chrome) em Brisanet Servicos de Telecomunicacoes (proxy residencial)",
+  "ctx": {
+   "ip": "45.160.31.151",
+   "asn": 53006,
+   "asOrganization": "Brisanet Servicos de Telecomunicacoes",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1736,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"129\", \"Google Chrome\";v=\"129\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-058",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 139 em OVH SAS",
+  "ctx": {
+   "ip": "51.75.105.145",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 374,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-059",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "Scrapy/2.13 (+https://scrapy.org) em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.11.142",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 314,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.13 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-060",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 134 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.185.18",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 442,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-061",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "axios/1.8.0 em Google LLC",
+  "ctx": {
+   "ip": "34.90.112.42",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 425,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "axios/1.8.0",
+   "accept": "application/json, text/plain, */*",
+   "accept-encoding": "gzip, compress, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-062",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 135 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.232.79",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 386,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-063",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl-impersonate (TLS de Chrome) em Brisanet Servicos de Telecomunicacoes (proxy residencial)",
+  "ctx": {
+   "ip": "45.160.126.245",
+   "asn": 53006,
+   "asOrganization": "Brisanet Servicos de Telecomunicacoes",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1887,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"139\", \"Google Chrome\";v=\"139\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-064",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "requests com UA de Chrome 120 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.152.94",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 436,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-065",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 129 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.94.122",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 383,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-066",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.100.19",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 340,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-067",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 120 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.240.235",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 309,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-068",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.102.112",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 293,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-069",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl-impersonate (TLS de Chrome) em MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A. (proxy residencial)",
+  "ctx": {
+   "ip": "85.240.248.212",
+   "asn": 3243,
+   "asOrganization": "MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A.",
+   "country": "PT",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1821,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-070",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.113.234",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 416,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-071",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "curl-impersonate (TLS de Chrome) em MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A. (proxy residencial)",
+  "ctx": {
+   "ip": "85.240.26.123",
+   "asn": 3243,
+   "asOrganization": "MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A.",
+   "country": "PT",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1817,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-072",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "python-requests/2.28.0 em OVH SAS",
+  "ctx": {
+   "ip": "51.75.239.187",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 402,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-requests/2.28.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-073",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "requests com UA de Chrome 140 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.132.206",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 410,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-074",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.159.196",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 302,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"139\", \"Google Chrome\";v=\"139\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-075",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "Scrapy/2.12 (+https://scrapy.org) em OVH SAS",
+  "ctx": {
+   "ip": "51.75.91.94",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 341,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.12 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-076",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.177.24",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 250,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-077",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "python-httpx/0.26.0 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.141.186",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 367,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.26.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-078",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 122 em Google LLC",
+  "ctx": {
+   "ip": "34.90.60.113",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 417,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-079",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "Go-http-client/2.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.69.88",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 245,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-080",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "requests com UA de Chrome 141 em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.158.146",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 370,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-081",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "Go-http-client/2.0 em Google LLC",
+  "ctx": {
+   "ip": "34.90.124.50",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 301,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-082",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 131 em OVH SAS",
+  "ctx": {
+   "ip": "51.75.125.40",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 401,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-083",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl/8.1.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.167.244",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 428,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "curl/8.1.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-084",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "curl-impersonate (TLS de Chrome) em Google LLC",
+  "ctx": {
+   "ip": "34.90.9.112",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 1812,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-085",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "Go-http-client/2.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.146.82",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 274,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-086",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.129.32",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 370,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-087",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.147.192",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 363,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-088",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "curl-impersonate (TLS de Chrome) em MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A. (proxy residencial)",
+  "ctx": {
+   "ip": "85.240.46.232",
+   "asn": 3243,
+   "asOrganization": "MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A.",
+   "country": "PT",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 1793,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"131\", \"Google Chrome\";v=\"131\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-089",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "curl-impersonate (TLS de Chrome) em Deutsche Telekom AG (proxy residencial)",
+  "ctx": {
+   "ip": "91.20.231.196",
+   "asn": 3320,
+   "asOrganization": "Deutsche Telekom AG",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1742,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-090",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "python-httpx/0.26.0 em OVH SAS",
+  "ctx": {
+   "ip": "51.75.225.153",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 297,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.26.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-091",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "requests com UA de Chrome 131 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.57.104",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 324,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-092",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "curl/8.9.0 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.171.110",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 424,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "curl/8.9.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-093",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "curl-impersonate (TLS de Chrome) em TIM SA (proxy residencial)",
+  "ctx": {
+   "ip": "189.40.206.14",
+   "asn": 26599,
+   "asOrganization": "TIM SA",
+   "country": "BR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1782,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-094",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.134.90",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 322,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"140\", \"Google Chrome\";v=\"140\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-095",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "requests com UA de Chrome 129 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.199.116",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 376,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-096",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "Go-http-client/2.0 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.87.121",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 273,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-097",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "python-httpx/0.28.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.220.246",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 393,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.28.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-098",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.204.167",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 316,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-099",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "requests com UA de Chrome 129 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.9.33",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 304,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-100",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "curl-impersonate (TLS de Chrome) em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.195.38",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 1777,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-101",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "UA vazio em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.238.220",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 383,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-102",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.224.74",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 362,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-103",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em OVH SAS",
+  "ctx": {
+   "ip": "51.75.83.173",
+   "asn": 16276,
+   "asOrganization": "OVH SAS",
+   "country": "FR",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 279,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-104",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "Go-http-client/2.0 em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.78.89",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 323,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-105",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "54.90.221.111",
+   "asn": 14618,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 390,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"133\", \"Google Chrome\";v=\"133\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-106",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "Go-http-client/2.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.33.180",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 282,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-107",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "UA vazio em The Constant Company, LLC",
+  "ctx": {
+   "ip": "45.76.187.83",
+   "asn": 20473,
+   "asOrganization": "The Constant Company, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 369,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-108",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "python-httpx/0.25.0 em Google LLC",
+  "ctx": {
+   "ip": "34.90.154.149",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 411,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "python-httpx/0.25.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-109",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "Scrapy/2.13 (+https://scrapy.org) em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.67.157",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 370,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Scrapy/2.13 (+https://scrapy.org)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-110",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/oferta",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.196.123",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 242,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"140\", \"Google Chrome\";v=\"140\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-111",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/api/offers",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Google LLC",
+  "ctx": {
+   "ip": "34.90.226.113",
+   "asn": 396982,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 401,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-112",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Amazon.com, Inc.",
+  "ctx": {
+   "ip": "3.120.216.191",
+   "asn": 16509,
+   "asOrganization": "Amazon.com, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 276,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"134\", \"Google Chrome\";v=\"134\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-113",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.98.243",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 307,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "same-origin",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-114",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/",
+  "note": "headers de Chrome Windows copiados, TLS de httpx, em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.26.65",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 324,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "none",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ },
+ {
+  "id": "scraper-115",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 123 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.165.141",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 339,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-116",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "requests com UA de Chrome 140 em Hetzner Online GmbH",
+  "ctx": {
+   "ip": "88.198.240.204",
+   "asn": 24940,
+   "asOrganization": "Hetzner Online GmbH",
+   "country": "DE",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 358,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-language": "en-US,en;q=0.9",
+   "accept-encoding": "gzip, deflate"
+  }
+ },
+ {
+  "id": "scraper-117",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "curl/8.4.0 em DigitalOcean, LLC",
+  "ctx": {
+   "ip": "164.90.238.154",
+   "asn": 14061,
+   "asOrganization": "DigitalOcean, LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+   "tlsClientHelloLength": 459,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "curl/8.4.0",
+   "accept": "*/*"
+  }
+ },
+ {
+  "id": "scraper-118",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/checkout",
+  "note": "Go-http-client/2.0 em Alibaba US Technology Co., Ltd.",
+  "ctx": {
+   "ip": "47.88.23.109",
+   "asn": 45102,
+   "asOrganization": "Alibaba US Technology Co., Ltd.",
+   "country": "SG",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 282,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Go-http-client/2.0",
+   "accept": "*/*",
+   "accept-encoding": "gzip"
+  }
+ },
+ {
+  "id": "scraper-119",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing",
+  "note": "axios/1.7.0 em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.125.246",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 344,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "axios/1.7.0",
+   "accept": "application/json, text/plain, */*",
+   "accept-encoding": "gzip, compress, deflate, br"
+  }
+ },
+ {
+  "id": "scraper-120",
+  "label": "scraper",
+  "expect": "DENY",
+  "path": "/landing?utm_source=google&utm_medium=cpc",
+  "note": "curl-impersonate (TLS de Chrome) em Akamai Connected Cloud",
+  "ctx": {
+   "ip": "172.104.175.5",
+   "asn": 63949,
+   "asOrganization": "Akamai Connected Cloud",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES256-GCM-SHA384",
+   "tlsClientHelloLength": 1881,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br, zstd",
+   "sec-fetch-dest": "document",
+   "sec-fetch-mode": "navigate",
+   "sec-fetch-site": "cross-site",
+   "sec-fetch-user": "?1",
+   "upgrade-insecure-requests": "1",
+   "sec-ch-ua": "\"Chromium\";v=\"139\", \"Google Chrome\";v=\"139\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"macOS\"",
+   "accept-language": "en-US,en;q=0.9"
+  }
+ }
+]

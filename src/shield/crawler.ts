@@ -30,6 +30,11 @@ const RDNS_SUFFIXES: Record<CrawlerFamily, string[]> = {
 // Meta documenta a verificação pelo AS32934 (whois -i origin AS32934).
 const ASN_VERIFIED: Partial<Record<CrawlerFamily, number[]>> = { meta: [32934] };
 
+// Sem PTR nenhum: Google/Bing/Meta sempre publicam rDNS, então é spoof.
+// ByteDance/TikTok não publica rDNS nem lista oficial de IPs (conferido em
+// 05/11/2026): tratamos como "não verificável" => ALLOW, para não violar R1.
+const NO_PTR_IS_SPOOF: Record<CrawlerFamily, boolean> = { google: true, bing: true, meta: true, tiktok: false };
+
 export function claimedCrawler(ua: string | null): CrawlerFamily | null {
   if (!ua) return null;
   for (const [re, fam] of CLAIMS) if (re.test(ua)) return fam;
@@ -154,6 +159,7 @@ export async function verifyCrawler(
         return { status: "verified", family, via: `rdns:${name}` };
       }
     }
+    if (!names.length && !NO_PTR_IS_SPOOF[family]) return { status: "error", family, via: "no-ptr-unverifiable" };
     cachePut(family, ip, "spoofed", names.length ? `ptr:${names[0]}` : "no-ptr", ctx);
     return { status: "spoofed", family, via: names.length ? `ptr:${names[0]}` : "no-ptr" };
   } catch (err) {

@@ -7,3 +7,5 @@ COOKIE_SECRET=dev-cookie-secret-troque
 # TURNSTILE_SECRET_KEY=
 # CF_API_TOKEN=
 # CF_ZONE_ID=
+# Liga X-Shield-Chaos e X-Shield-Host no wrangler dev
+DEV_FEATURES=true

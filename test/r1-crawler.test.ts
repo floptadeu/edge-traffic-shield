@@ -94,6 +94,14 @@ describe("R1 — crawlers verificados", () => {
     expect(debugOf(res).applied).toBe("ALLOW");
   });
 
+  it("TikTok/Bytespider sem PTR é 'não verificável' (ALLOW); com PTR de outro domínio é spoof", async () => {
+    crawlerDeps.resolver = fake;
+    const ua = "Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; spider-feedback@bytedance.com)";
+    expect((await verifyCrawler(ua, "47.128.0.9", 16509)).status).toBe("error");
+    expect((await verifyCrawler(ua, "203.0.113.50", 16509)).status).toBe("spoofed");
+    expect((await verifyCrawler(GOOGLEBOT_UA, "47.128.0.10", 16509)).status).toBe("spoofed");
+  });
+
   it("verifyCrawler isolado: cache positivo evita nova consulta; UA comum não consulta nada", async () => {
     let calls = 0;
     crawlerDeps.resolver = { ptr: async (ip) => { calls++; return fake.ptr(ip); }, addr: fake.addr };

@@ -1,0 +1,430 @@
+[
+ {
+  "id": "crawler-001",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.66.1 (verificação por rede, não por UA)",
+  "path": "/sitemap.xml",
+  "ctx": {
+   "ip": "66.249.66.1",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 454,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-002",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.66.9 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "66.249.66.9",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 430,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-003",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.66.33 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "66.249.66.33",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 405,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-004",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.70.1 (verificação por rede, não por UA)",
+  "path": "/sitemap.xml",
+  "ctx": {
+   "ip": "66.249.70.1",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 581,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-005",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.79.1 (verificação por rede, não por UA)",
+  "path": "/",
+  "ctx": {
+   "ip": "66.249.79.1",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 591,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-006",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.66.65 (verificação por rede, não por UA)",
+  "path": "/landing",
+  "ctx": {
+   "ip": "66.249.66.65",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 458,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-007",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.66.67 (verificação por rede, não por UA)",
+  "path": "/sitemap.xml",
+  "ctx": {
+   "ip": "66.249.66.67",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 585,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-008",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 66.249.64.1 (verificação por rede, não por UA)",
+  "path": "/sitemap.xml",
+  "ctx": {
+   "ip": "66.249.64.1",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 576,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-009",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "AdsBot-Google de 66.249.66.129 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "66.249.66.129",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 565,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "AdsBot-Google (+http://www.google.com/adsbot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-010",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "AdsBot-Google de 66.249.66.161 (verificação por rede, não por UA)",
+  "path": "/sitemap.xml",
+  "ctx": {
+   "ip": "66.249.66.161",
+   "asn": 15169,
+   "asOrganization": "Google LLC",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 440,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "AdsBot-Google (+http://www.google.com/adsbot.html)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br",
+   "from": "googlebot(at)googlebot.com"
+  }
+ },
+ {
+  "id": "crawler-011",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 40.77.167.1 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "40.77.167.1",
+   "asn": 8075,
+   "asOrganization": "Microsoft Corporation",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 434,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-012",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 40.77.167.33 (verificação por rede, não por UA)",
+  "path": "/",
+  "ctx": {
+   "ip": "40.77.167.33",
+   "asn": 8075,
+   "asOrganization": "Microsoft Corporation",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 466,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-013",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 207.46.13.1 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "207.46.13.1",
+   "asn": 8075,
+   "asOrganization": "Microsoft Corporation",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 418,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-014",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 157.55.39.1 (verificação por rede, não por UA)",
+  "path": "/landing",
+  "ctx": {
+   "ip": "157.55.39.1",
+   "asn": 8075,
+   "asOrganization": "Microsoft Corporation",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 527,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-015",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "facebookexternalhit de 69.171.251.1 (verificação por rede, não por UA)",
+  "path": "/",
+  "ctx": {
+   "ip": "69.171.251.1",
+   "asn": 32934,
+   "asOrganization": "Facebook, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 591,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-016",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "facebookexternalhit de 173.252.95.5 (verificação por rede, não por UA)",
+  "path": "/",
+  "ctx": {
+   "ip": "173.252.95.5",
+   "asn": 32934,
+   "asOrganization": "Facebook, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 592,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-017",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "facebookexternalhit de 66.220.149.9 (verificação por rede, não por UA)",
+  "path": "/robots.txt",
+  "ctx": {
+   "ip": "66.220.149.9",
+   "asn": 32934,
+   "asOrganization": "Facebook, Inc.",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 585,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-018",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 110.249.201.1 (verificação por rede, não por UA)",
+  "path": "/landing",
+  "ctx": {
+   "ip": "110.249.201.1",
+   "asn": 4134,
+   "asOrganization": "Chinanet",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 566,
+   "httpProtocol": "HTTP/2"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; spider-feedback@bytedance.com)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ },
+ {
+  "id": "crawler-019",
+  "label": "crawler",
+  "expect": "ALLOW",
+  "note": "Mozilla de 111.225.148.1 (verificação por rede, não por UA)",
+  "path": "/",
+  "ctx": {
+   "ip": "111.225.148.1",
+   "asn": 4134,
+   "asOrganization": "Chinanet",
+   "country": "US",
+   "tlsVersion": "TLSv1.3",
+   "tlsCipher": "AEAD-AES128-GCM-SHA256",
+   "tlsClientHelloLength": 571,
+   "httpProtocol": "HTTP/1.1"
+  },
+  "headers": {
+   "user-agent": "Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; spider-feedback@bytedance.com)",
+   "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+   "accept-encoding": "gzip, deflate, br"
+  }
+ }
+]
