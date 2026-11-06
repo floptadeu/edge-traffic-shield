@@ -18,7 +18,13 @@ export default {
   async fetch(request, env, ctx): Promise<Response> {
     env = applyChaos(request, env);
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/__ets/api/")) return handleApi(request, env, ctx);
+    if (url.pathname.startsWith("/__ets/api/")) {
+      // PLATFORM_HOST setado = API de gestão só responde nesse hostname;
+      // nos domínios dos clientes o caminho simplesmente não existe.
+      if (env.PLATFORM_HOST && url.hostname !== env.PLATFORM_HOST)
+        return new Response("Not Found\n", { status: 404, headers: { "content-type": "text/plain" } });
+      return handleApi(request, env, ctx);
+    }
     if (url.pathname === "/__ets/health") return Response.json({ ok: true });
     return handleShield(request, env, ctx);
   },
