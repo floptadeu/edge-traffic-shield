@@ -1,6 +1,7 @@
 # Resultados
 
-Medições feitas em 05/11/2026. Comandos e saídas brutas em `results/`.
+Medições feitas em 05/11/2026. Saídas brutas em `results/` (`fixtures-*.txt/json`, `load-*.txt`).
+Deploy de demonstração: `https://edge-traffic-shield.edge-traffic-shield.workers.dev/landing`.
 
 ## Como montei as fixtures
 
@@ -52,12 +53,21 @@ No dia da avaliação prefiro perder 4 pontos de bots do que arriscar 10 por hum
 | Onde | Overhead do Worker (`Server-Timing: ets`) | Parede (cliente → resposta) | Observação |
 |---|---|---|---|
 | Local, 30 000 req a 500 req/s alvo (`results/load-local.txt`) | p50 40 ms · p95 96 ms · p99 147 ms | p50 457 ms · p95 856 ms | `wrangler dev` é um processo só e o gerador roda na mesma máquina: saturou em ~350 req/s. Serve para funcionalidade e cota, não para latência. |
-| Deploy (workers.dev), {{REMOTE_N}} req a {{REMOTE_RPS}} req/s (`results/load-remote.txt`) | {{REMOTE_EDGE}} | {{REMOTE_WALL}} | Medido de São Paulo (WSL) contra a colo mais próxima. Amostra pequena para não gastar a cota do dia. |
+| Deploy (workers.dev), 1 000 req a ~45 req/s (`results/load-remote.txt`) | **p50 5 ms · p95 5 ms · p99 32 ms** (máx. 1,5 s na criação do primeiro shard) | p50 40 ms · p95 208 ms | Medido de São Paulo (WSL) contra a colo mais próxima. Amostra pequena para não gastar a cota do dia. |
 
-Dentro do Worker o que custa é a chamada ao DO (RPC na mesma colo) e, na primeira requisição de
-um shard novo, a espera de até 500 ms pelo ruleset ativo. HMAC + sinais ficam abaixo de 1 ms de
-CPU. Assets estáticos não passam pelo DO. O timeout do DO é 10 ms (`DO_TIMEOUT_MS`): acima disso
-a requisição segue com o score sem velocity (`src=fallback`), então o p95 é limitado por construção.
+**O que descobri no deploy:** Durable Objects não existem na América do Sul. Medi o RTT do DO a
+partir de GRU com timeout de 3 s: **120–140 ms** quente, mesmo com `locationHint: "sam"`
+(`results/`, seção "DO RTT"). Esperar por isso quebraria o bloco C inteiro. A solução que ficou:
+o Worker espera no máximo `DO_TIMEOUT_MS` (5 ms); se não vier resposta, decide na hora com os
+sinais passivos e com a **última velocity que o DO devolveu para aquele IP** (a chamada continua
+em `waitUntil`, então o DO registra o evento, atualiza os contadores e a resposta tardia vira a
+dica da próxima requisição). Na rajada de teste contra o deploy, a velocity apareceu com um
+request de atraso (`velocity:0.93*25(burst=29/30~late)`). Em colos com DO local (EUA/Europa) a
+resposta chega dentro dos 5 ms e o caminho normal (`src=do`) é usado.
+
+HMAC + sinais ficam abaixo de 1 ms de CPU; o p50 de 5 ms é exatamente o timeout. Os 32 ms do p99
+são requisições que caíram num isolate frio (3 leituras de KV uma vez por isolate) e a primeira
+requisição de cada shard (criação do DO).
 
 Resultado de todas as 30 000 requisições locais: 30 000 × HTTP 200, 0 erros, humanos 100 % ALLOW,
 crawlers 100 % ALLOW, custo no mix da carga 18,1/30 (igual ao das fixtures, como esperado).
@@ -86,8 +96,13 @@ Sobra folga de 10× em Queues e de 3× em Workers/DO para a rodada de avaliaçã
   `HeadlessChrome`/hints ou, se mascarado, por ASN + desafio ignorado (Turnstile invisível não roda
   em headless) + velocity. Playwright stealth + proxy residencial (9 pts): só velocity, trap e
   atestação; provavelmente perco a maior parte desses 9.
-- **Bloco C (latência):** o risco é a primeira requisição de cada shard na colo do avaliador
-  (criação do DO + ruleset) e o DoH do primeiro crawler. Ambos acontecem uma vez; o p99 pode sentir.
+- **Bloco C (latência):** medido p95 = 5 ms, p99 = 32 ms numa amostra de 1 000. O p99 ≤ 45 ms
+  depende de quantos isolates frios o avaliador toca nos primeiros segundos; o DoH do primeiro
+  crawler e a criação de cada shard também caem no p99. Com 500 req/s por 50 s o regime estável
+  domina, mas é onde posso perder os 5 pontos do p99.
+- **Velocity no Brasil chega um request atrasada** (DO fora da região). Para rajadas de centenas de
+  requests isso não muda nada; para um scraper lento (1 req/s) a velocity nunca sobe, e aí quem
+  trabalha são os sinais passivos, o desafio ignorado e o trap.
 - **Bloco E:** não tenho CI nem lint configurados (fora do escopo, mas um revisor pode sentir falta).
 - **Custom Hostname ponta a ponta:** o código e a API existem (`src/api/cloudflare.ts`), mas o
   deploy de demonstração está só no `workers.dev`, sem zona própria; a parte do CNAME/certificado

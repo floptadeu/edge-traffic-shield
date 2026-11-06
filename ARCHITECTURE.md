@@ -10,10 +10,11 @@ visitante ──► Worker (src/shield/pipeline.ts)
    4. ruleset no Worker           KV ruleset:{tenant}:{v} (chave imutável, memo) — só para pesos/limiares do fallback
    5. sinais no Worker            asn · tls · headers · ua · geo · path · attestation (cookie assinado)   [puros, testados isolados]
    6. R1 crawler                  UA de crawler? → FCrDNS via DoH (ou AS32934 Meta), cache em memória + Cache API → ALLOW forçado
-   7. UMA chamada RPC ao DO       ShieldShard(tenant, colo, hash(ip) % shards), timeout 10 ms
+   7. UMA chamada RPC ao DO       ShieldShard(tenant, colo, região, hash(ip) % shards), espera ≤ 5 ms (DO_TIMEOUT_MS)
         └─ dentro do DO:          velocity IP/ASN/fp em janela deslizante (memória) + trap → score com o ruleset ATIVO
                                   → veredito/regras → applied (monitor ⇒ ALLOW) → evento vai para o lote (sem custo extra)
-      sem resposta em 10 ms       → mesma conta no Worker sem velocity/trap (src=fallback)  [R3]
+      sem resposta em 5 ms        → a chamada segue em waitUntil (evento e contadores não se perdem) e o Worker fecha a
+                                  conta agora com a última velocity que o DO devolveu para este IP (src=fallback, "~late") [R3]
    8. aplica                      ALLOW: proxy · SILENT_VERIFY: proxy + <script> invisível · DECOY: proxy + HTMLRewriter (preços
                                   embaralhados + link-armadilha oculto) · BLOCK: 403 curto. X-Shield-Debug explica tudo.
 DO ──(lote: 100 eventos ou 30 s)──► Queue ──► consumer idempotente (batch_id) ──► D1 stats_minute + amostra em events
@@ -40,6 +41,11 @@ API (/__ets/api/v1) ──► D1 (verdade) ──► KV (compilado) ──► Te
 5. **Crawler verificado por rede (FCrDNS via DoH + ASN da Meta), com UA só como gatilho da consulta.**
    Descartado: rDNS em todo request (2 subrequests, mata o p95) e lista estática de IPs (desatualiza).
    Em dúvida (DNS fora, ByteDance sem rDNS publicado) o veredito é ALLOW: violar R1 reprova, liberar um bot custa 1.
+
+**Correção depois de medir no deploy:** DO não existe na América do Sul (RTT GRU → DO ≈ 125 ms mesmo
+com `locationHint`). Por isso o hot path nunca espera mais que 5 ms pelo DO: a chamada continua em
+`waitUntil` e a resposta tardia vira a velocity da próxima requisição do mesmo IP (memo por isolate,
+60 s). Em colos com DO local a resposta chega a tempo e o caminho normal é usado.
 
 Outras escolhas menores: assets estáticos não passam pelo DO; atestação amarrada ao fingerprint derivado
 (cookie de um Chrome real não serve num `requests` do mesmo IP); `combine()` (noisy-OR) dentro de um sinal

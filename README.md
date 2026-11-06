@@ -173,7 +173,7 @@ src/shield/html.ts           R2: injeção invisível, decoy, bloqueio
 src/shield/cookies.ts        cookies assinados de desafio/atestação
 src/shield/tenant.ts         hostname → tenant (KV, fallback D1, memo) e carga do ruleset
 src/shield/publish.ts        publicar/rollback: D1 → KV (chave imutável) → ponteiro no DO
-src/do/ShieldShard.ts        DO por (tenant, colo, shard): velocity, decisão, lotes para a Queue
+src/do/ShieldShard.ts        DO por (tenant, colo, região, shard): velocity, decisão, lotes para a Queue
 src/do/TenantConfig.ts       DO por tenant: ponteiro da versão ativa (propagação ≤ 5 s)
 src/queue/consumer.ts        consumer idempotente → agregados e amostras no D1
 src/api/*.ts                 API de gestão
