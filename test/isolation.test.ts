@@ -31,6 +31,16 @@ describe("isolamento cross-tenant", () => {
     expect((await fetchRaw(swapped)).status).toBe(401);
   });
 
+  it("não assina link para recurso de B via ../ no target (dot-segment)", async () => {
+    const a = await createTenant();
+    const b = await createTenant();
+    const res = await api(`/v1/tenants/${a.id}/links`, {
+      body: { target: `/v1/tenants/${a.id}/../${b.id}/stats`, ttl: 60 },
+      key: a.apiKey,
+    });
+    expect(res.status).toBe(400);
+  });
+
   it("hot path: mesma requisição, vereditos independentes por tenant", async () => {
     const strict = await createTenant({ ruleset: { mode: "enforce", rules: [{ id: "block-aws", if: { field: "asn", op: "eq", value: 16509 }, verdict: "BLOCK" }] } });
     const lax = await createTenant({ ruleset: { mode: "monitor" } });

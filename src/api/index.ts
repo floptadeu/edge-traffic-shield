@@ -358,10 +358,13 @@ route("POST", "/v1/tenants/:id/links", async ({ request, env, url, params, princ
   if (!env.COOKIE_SECRET) throw new ApiError(500, "COOKIE_SECRET não configurado");
   const b = await readJson(request);
   const target = typeof b.target === "string" ? b.target : `/v1/tenants/${params.id}/stats`;
-  if (!target.startsWith(`/v1/tenants/${params.id}/`)) throw new ApiError(400, "target precisa ser um recurso deste tenant");
+  const targetUrl = new URL(`/__ets/api${target}`, url.origin);
+  // Valida o pathname JÁ normalizado pelo parser de URL (../ etc.), que é o que vai assinado
+  // e o que authenticate() usa para extrair o tenant — nunca a string crua do corpo.
+  if (!targetUrl.pathname.startsWith(`/__ets/api/v1/tenants/${params.id}/`))
+    throw new ApiError(400, "target precisa ser um recurso deste tenant");
   const ttl = typeof b.ttl === "number" && b.ttl > 0 && b.ttl <= 7 * 86_400 ? Math.floor(b.ttl) : 3600;
   const exp = Math.floor(Date.now() / 1000) + ttl;
-  const targetUrl = new URL(`/__ets/api${target}`, url.origin);
   targetUrl.searchParams.set("exp", String(exp));
   targetUrl.searchParams.set("sig", await linkSignature(env.COOKIE_SECRET, targetUrl.pathname, exp));
   return json({ url: targetUrl.toString(), expires_at: exp, ttl }, 201);
