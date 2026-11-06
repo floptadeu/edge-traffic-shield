@@ -28,7 +28,7 @@ class SlidingCounter {
   private readonly buckets: Uint32Array;
   private readonly stamps: Int32Array; // segundo a que cada balde pertence
   lastSec = 0;
-  constructor(private readonly size: number) {
+  constructor(readonly size: number) {
     this.buckets = new Uint32Array(size);
     this.stamps = new Int32Array(size);
   }
@@ -158,9 +158,12 @@ export class ShieldShard extends DurableObject<Env> {
 
   private hitAndCount(keys: ShardRequest["keys"], nowSec: number, rs: Ruleset): VelocityCounts {
     const win = Math.min(rs.velocity.windowSec, MAX_WINDOW_SEC);
-    const ipC = this.counter(`ip:${keys.ip}`, win);
-    const asnC = this.counter(`asn:${keys.asn}`, win);
-    const fpC = this.counter(`fp:${keys.fp}`, win);
+    // O buffer precisa cobrir a MAIOR janela consultada (count() só enxerga até
+    // `size` segundos para trás, qualquer que seja o span pedido).
+    const size = Math.min(Math.max(win, rs.velocity.burstWindowSec), MAX_WINDOW_SEC);
+    const ipC = this.counter(`ip:${keys.ip}`, size);
+    const asnC = this.counter(`asn:${keys.asn}`, size);
+    const fpC = this.counter(`fp:${keys.fp}`, size);
     ipC.hit(nowSec);
     asnC.hit(nowSec);
     fpC.hit(nowSec);
@@ -175,7 +178,9 @@ export class ShieldShard extends DurableObject<Env> {
 
   private counter(key: string, size: number): SlidingCounter {
     let c = this.counters.get(key);
-    if (!c) {
+    if (!c || c.size < size) {
+      // Janela cresceu via publish de ruleset: recria (perde no máximo os últimos
+      // `size` segundos daquele key — melhor que subcontar para sempre).
       c = new SlidingCounter(size);
       this.counters.set(key, c);
     }

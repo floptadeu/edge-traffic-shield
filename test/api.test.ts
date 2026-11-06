@@ -88,6 +88,10 @@ describe("ruleset: versões, rollback e propagação", () => {
     expect(errs.join(" ")).toMatch(/mode/);
     expect(errs.join(" ")).toMatch(/weights.xpto/);
     expect(errs.join(" ")).toMatch(/thresholds/);
+    // janela de rajada maior que a janela principal subcontaria no DO
+    const badVel = await api(`/v1/tenants/${t.id}/ruleset`, { method: "PUT", body: { velocity: { windowSec: 5, burstWindowSec: 60 } }, key: t.apiKey });
+    expect(badVel.status).toBe(400);
+    expect((((await badVel.json()) as { details: string[] }).details).join(" ")).toMatch(/burstWindowSec/);
 
     const v2 = await api(`/v1/tenants/${t.id}/ruleset`, { method: "PUT", body: { ruleset: { mode: "enforce" }, comment: "liga enforce" }, key: t.apiKey });
     expect(v2.status).toBe(201);

@@ -84,6 +84,23 @@ describe("ShieldShard", () => {
     }
   });
 
+  it("janela maior em ruleset novo recria o contador (buffer antigo não subconta)", async () => {
+    const s = stub("do-test:GRU:resize");
+    await runInDurableObject(s, (instance) => {
+      const i = instance as unknown as {
+        counter(key: string, size: number): { size: number; hit(n: number): void; count(n: number, s: number): number };
+      };
+      const t = 1_900_000_000;
+      const c60 = i.counter("ip:9.9.9.9", 60);
+      c60.hit(t);
+      expect(i.counter("ip:9.9.9.9", 60)).toBe(c60); // mesmo tamanho: reaproveita
+      const c300 = i.counter("ip:9.9.9.9", 300); // publish subiu a janela
+      expect(c300.size).toBe(300);
+      c300.hit(t + 120);
+      expect(c300.count(t + 200, 300)).toBe(1); // enxerga além dos 60 s do buffer velho
+    });
+  });
+
   it("markTrap marca o IP por um tempo", async () => {
     const s = stub();
     await s.markTrap("5.5.5.5", 1_800_000_000_000);

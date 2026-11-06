@@ -220,6 +220,7 @@ export function validateRuleset(input: unknown): ValidationResult {
     burstWindowSec: numField(v, "burstWindowSec", d.velocity.burstWindowSec, errors, "velocity", 1, 60),
     ipBurst: numField(v, "ipBurst", d.velocity.ipBurst, errors, "velocity", 1),
   };
+  if (velocity.burstWindowSec > velocity.windowSec) errors.push("velocity: burstWindowSec <= windowSec");
 
   const g = isObj(input.geo) ? input.geo : {};
   const geo = { riskCountries: strArray(g.riskCountries, errors, "geo.riskCountries") ?? d.geo.riskCountries };
