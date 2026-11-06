@@ -46,3 +46,13 @@ export interface Signal {
 export function clamp01(n: number): number {
   return n < 0 ? 0 : n > 1 ? 1 : n;
 }
+
+// Combina evidências independentes dentro de um sinal (noisy-OR): duas pistas
+// de 0.7 valem 0.91, não 0.7. Devolve o valor e os motivos concatenados.
+export function combine(checks: Array<[number, string]>): SignalResult | null {
+  if (!checks.length) return null;
+  let miss = 1;
+  for (const [v] of checks) miss *= 1 - clamp01(v);
+  const value = Math.round((1 - miss) * 100) / 100;
+  return { value, reason: checks.map((c) => c[1]).join("+") };
+}

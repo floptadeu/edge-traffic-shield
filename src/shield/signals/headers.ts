@@ -4,7 +4,7 @@
 // copiam só o User-Agent erram nesses detalhes.
 
 import { parseUserAgent } from "./ua";
-import type { Signal, SignalInput, SignalResult } from "./types";
+import { combine, type Signal, type SignalInput, type SignalResult } from "./types";
 
 function brandVersions(secChUa: string): { major: number; brands: string } {
   // '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"'
@@ -38,6 +38,9 @@ export const headersSignal: Signal = {
     if (!accept) checks.push([0.6, "no-accept"]);
     if (ua.family === "chrome" || ua.family === "edge" || ua.family === "firefox" || ua.family === "safari") {
       if (!lang) checks.push([0.6, "no-accept-language"]);
+      // Navegadores mandam lista com q-values ("pt-BR,pt;q=0.9"); um token só
+      // ("en-US") é o default do Playwright/Puppeteer.
+      else if (/^[a-z]{2,3}(-[A-Za-z]{2,4})?$/.test(lang.trim())) checks.push([0.5, "single-lang"]);
       if (!encoding) checks.push([0.5, "no-accept-encoding"]);
       if (isDoc && accept && !accept.includes("text/html") && !accept.includes("*/*"))
         checks.push([0.6, "doc-without-html-accept"]);
@@ -56,7 +59,7 @@ export const headersSignal: Signal = {
         const plat = platformOfHint(h.get("sec-ch-ua-platform"));
         const expected: Record<string, string> = { windows: "windows", macos: "macos", linux: "linux", android: "android", ios: "ios" };
         if (plat && expected[ua.platform] && plat !== expected[ua.platform])
-          checks.push([0.7, `platform-mismatch:${plat}/${ua.platform}`]);
+          checks.push([0.9, `platform-mismatch:${plat}/${ua.platform}`]);
       }
     }
     if ((ua.family === "firefox" || ua.family === "safari") && secChUa) checks.push([0.9, "hints-from-non-chromium"]);
@@ -65,8 +68,6 @@ export const headersSignal: Signal = {
       if (!accept || accept === "*/*") checks.push([0.5, "tool-minimal-headers"]);
     }
 
-    if (!checks.length) return { value: 0, reason: "coherent" };
-    checks.sort((a, b) => b[0] - a[0]);
-    return { value: checks[0]![0], reason: checks.map((c) => c[1]).join("+") };
+    return combine(checks) ?? { value: 0, reason: "coherent" };
   },
 };

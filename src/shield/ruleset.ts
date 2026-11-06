@@ -73,10 +73,10 @@ export const DEFAULT_RULESET: Ruleset = {
     trap: 45,
     attestation: 30,
   },
-  // Calibrado para que um humano em VPN + navegador antigo + país de risco
-  // some ~42 (SILENT_VERIFY, invisível) e uma ferramenta óbvia em nuvem
-  // some ~65 (DECOY) sem precisar de velocity. Ver RESULTS.md.
-  thresholds: { silent_verify: 35, decoy: 60, block: 80 },
+  // Calibrado nas fixtures (RESULTS.md): o pior humano plausível (VPN +
+  // navegador antigo + proxy corporativo) fica em ~42 (SILENT_VERIFY, que é
+  // invisível); DECOY exige >= 2 indicadores fortes independentes (~50+).
+  thresholds: { silent_verify: 35, decoy: 50, block: 80 },
   velocity: {
     shards: 4,
     windowSec: 60,

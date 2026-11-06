@@ -44,7 +44,7 @@ describe("ShieldShard", () => {
   it("sem ruleset publicado usa o default (monitor) e aplica ALLOW", async () => {
     const r = await stub().evaluate(shardReq({ signals: [{ id: "ua", value: 1, reason: "tool" }, { id: "asn", value: 1, reason: "dc" }] }));
     expect(r.mode).toBe("monitor");
-    expect(r.verdict).toBe("SILENT_VERIFY"); // 30 + 25 = 55
+    expect(r.verdict).toBe("DECOY"); // 30 + 25 = 55
     expect(r.applied).toBe("ALLOW");
     expect(r.rulesetVersion).toBe(0);
   });

@@ -70,6 +70,8 @@ export function loadFixtures(dir = "fixtures") {
 // Monta a requisição de uma fixture contra a plataforma.
 export function fixtureRequest(fx, { baseUrl, host, evalKey }) {
   const headers = { ...fx.headers };
+  // Node/undici manda "user-agent: node" quando o header falta; UA vazio de verdade exige o valor "".
+  if (headers["user-agent"] === undefined) headers["user-agent"] = "";
   if (host) headers["x-shield-host"] = host; // só funciona com DEV_FEATURES=true
   headers["x-eval-context"] = signEvalContext(fx.ctx, evalKey);
   return { url: `${baseUrl.replace(/\/$/, "")}${fx.path ?? "/landing"}`, headers };

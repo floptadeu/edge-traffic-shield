@@ -6,7 +6,7 @@ import type { Signal, SignalInput, SignalResult } from "./types";
 const PROBE_RE =
   /(^|\/)(\.env|\.git|\.aws|\.ssh|wp-login\.php|wp-admin|xmlrpc\.php|phpmyadmin|phpinfo|actuator|server-status|cgi-bin|\.DS_Store|config\.(php|json|yml)|backup\.(zip|sql|tar))(\/|$|\?)/i;
 const CRAWL_FILES_RE = /^\/(robots\.txt|sitemap[^/]*\.xml|feed|rss|\.well-known\/security\.txt)$/i;
-const STATIC_RE = /\.(css|js|mjs|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf|map|mp4|webm)$/i;
+export const STATIC_RE = /\.(css|js|mjs|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf|map|mp4|webm)$/i;
 
 export const pathSignal: Signal = {
   id: "path",

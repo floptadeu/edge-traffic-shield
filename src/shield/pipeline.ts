@@ -18,6 +18,7 @@ import { BEACON_PATH, TRAP_PREFIX, blockResponse, decoyRewrite, injectAttestatio
 import type { Mode, Ruleset, Verdict } from "./ruleset";
 import { applyRules, evaluateSignals, formatContributions, scoreFrom, verdictFromScore, type Contribution } from "./score";
 import { SIGNALS, type SignalInput } from "./signals";
+import { STATIC_RE } from "./signals/path";
 import { deriveFingerprint } from "./signals/tls";
 import { parseUserAgent } from "./signals/ua";
 import { loadRuleset, noteVersion, resolveTenant, type TenantHost } from "./tenant";
@@ -52,6 +53,17 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
 
   if (url.pathname === BEACON_PATH) return handleBeacon(request, env, tenant, log);
   if (url.pathname.startsWith(TRAP_PREFIX)) return handleTrap(request, env, ctx, tenant, url, log);
+
+  // Assets estáticos passam direto: não pontuam, não contam velocity, não
+  // gastam DO. Uma landing carrega dezenas deles por visita; contar isso
+  // estouraria a janela de rajada de qualquer humano.
+  if (STATIC_RE.test(url.pathname)) {
+    const origin = await fetchOrigin(request, tenant, url, "ALLOW");
+    const res = new Response(origin.body, origin);
+    res.headers.set("x-shield-debug", "verdict=ALLOW; applied=ALLOW; reason=static-asset");
+    res.headers.append("server-timing", `ets;dur=${Date.now() - started}`);
+    return res;
+  }
 
   // --- contexto da conexão (real ou do avaliador) ---
   const { conn, evalTag } = await resolveConn(request, env);
@@ -194,7 +206,7 @@ async function applyVerdict(
 ): Promise<Response> {
   if (d.applied === "BLOCK") return blockResponse();
 
-  let res = await fetchOrigin(request, tenant, url, d);
+  let res = await fetchOrigin(request, tenant, url, d.applied);
   const setCookies: string[] = [];
 
   if (d.applied === "SILENT_VERIFY" && secret) {
@@ -218,12 +230,12 @@ async function applyVerdict(
   return out;
 }
 
-async function fetchOrigin(request: Request, tenant: TenantHost, url: URL, d: Decision): Promise<Response> {
-  if (tenant.origin === "demo") return demoOrigin(url, d.applied);
+async function fetchOrigin(request: Request, tenant: TenantHost, url: URL, applied: Verdict): Promise<Response> {
+  if (tenant.origin === "demo") return demoOrigin(url, applied);
   const target = new URL(url.pathname + url.search, tenant.origin);
   const headers = new Headers(request.headers);
   headers.set("x-forwarded-host", url.hostname);
-  headers.set("x-shield-verdict", d.applied);
+  headers.set("x-shield-verdict", applied);
   headers.delete("x-eval-context");
   try {
     return await fetch(new Request(target.toString(), { method: request.method, headers, body: request.body, redirect: "manual" }));

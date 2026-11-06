@@ -5,7 +5,7 @@
 import { fnv1a } from "../../lib/crypto";
 import type { ConnInfo } from "../conn";
 import { isBrowser, parseUserAgent, type ParsedUa } from "./ua";
-import type { Signal, SignalInput, SignalResult } from "./types";
+import { combine, type Signal, type SignalInput, type SignalResult } from "./types";
 
 // Fingerprint estável usado como chave de velocity. Não identifica uma pessoa;
 // agrupa clientes com a mesma pilha TLS/HTTP/UA.
@@ -41,17 +41,16 @@ export const tlsSignal: Signal = {
       if (httpProtocol === "HTTP/1.1" || httpProtocol === "HTTP/1.0") checks.push([0.7, `browser-${httpProtocol}`]);
       if (isCbcCipher(tlsCipher)) checks.push([0.8, "cbc-cipher"]);
       // ClientHello curto demais para um navegador atual (GREASE, ALPN, ML-KEM...).
+      // Chrome não manda menos de ~500 bytes desde 2016: é quase decisivo.
       if (len > 0) {
-        if ((ua.family === "chrome" || ua.family === "edge") && len < 500) checks.push([0.7, `short-hello:${len}`]);
-        else if (ua.family === "firefox" && len < 350) checks.push([0.6, `short-hello:${len}`]);
+        if ((ua.family === "chrome" || ua.family === "edge") && len < 500) checks.push([0.9, `short-hello:${len}`]);
+        else if (ua.family === "firefox" && len < 350) checks.push([0.8, `short-hello:${len}`]);
         else if (len < 200) checks.push([0.6, `short-hello:${len}`]);
       }
     } else if (isCbcCipher(tlsCipher)) {
       checks.push([0.4, "cbc-cipher"]);
     }
 
-    if (!checks.length) return { value: 0, reason: "coherent" };
-    checks.sort((a, b) => b[0] - a[0]);
-    return { value: checks[0]![0], reason: checks.map((c) => c[1]).join("+") };
+    return combine(checks) ?? { value: 0, reason: "coherent" };
   },
 };

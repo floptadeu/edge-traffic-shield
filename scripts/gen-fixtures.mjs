@@ -156,7 +156,7 @@ function humans(n) {
     } else if (r < 0.15) {
       ctx = { ...ctx, ...stacks.oldChrome() };
       headers["user-agent"] = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36";
-      headers["sec-ch-ua"] = '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"';
+      Object.assign(headers, CH(109, "Windows"));
       note = "Chrome 109 no Windows 7 (TLS 1.2) em " + net.org;
     } else if (r < 0.2) {
       ctx = { ...ctx, httpProtocol: "HTTP/1.1" };

@@ -17,7 +17,7 @@ export interface ParsedUa {
 }
 
 const TOOL_RE =
-  /python-requests|python-urllib|aiohttp|httpx|\bcurl\/|\bwget\/|go-http-client|okhttp|axios\/|node-fetch|undici|\bjava\/|apache-httpclient|libwww|scrapy|postmanruntime|insomnia|guzzlehttp|restsharp|\bhttpclient\b|got \(|lwp::|mechanize|phantom|ruby|perl/i;
+  /^node$|^node\/|python-requests|python-urllib|aiohttp|httpx|\bcurl\/|\bwget\/|go-http-client|okhttp|axios\/|node-fetch|undici|\bjava\/|apache-httpclient|libwww|scrapy|postmanruntime|insomnia|guzzlehttp|restsharp|\bhttpclient\b|got \(|lwp::|mechanize|phantom|ruby|perl/i;
 const HEADLESS_RE = /headlesschrome|puppeteer|playwright|selenium|phantomjs|webdriver|electron/i;
 const BOT_RE = /bot\b|crawler|spider|scrap|fetch|monitor|scan|archive|preview|validator/i;
 
@@ -79,7 +79,7 @@ export const uaSignal: Signal = {
     if (p.headless) return { value: 1, reason: "headless" };
     if (p.tool) return { value: 1, reason: "tool" };
     if (p.botWords) return { value: 0.8, reason: "bot-words" };
-    if (p.raw.length < 20) return { value: 0.6, reason: "too-short" };
+    if (p.raw.length < 20) return { value: 0.8, reason: "too-short" }; // nenhum navegador tem UA tão curto
     if (/MSIE|Mozilla\/4\.0/.test(p.raw)) return { value: 0.5, reason: "legacy" };
     if ((p.family === "chrome" || p.family === "edge") && p.major > 0) {
       if (p.major < CHROME_OLD) return { value: 0.4, reason: `chrome-old:${p.major}` };

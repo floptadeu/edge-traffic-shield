@@ -71,9 +71,13 @@ describe("tls (fingerprint derivado)", () => {
     expect(r!.reason).toContain("browser-HTTP/1.1");
     expect(r!.reason).toContain("short-hello");
   });
-  it("cifra CBC em navegador moderno = 0.8", () => {
+  it("cifra CBC em navegador moderno pesa 0.8 e combina (noisy-OR) com TLS 1.2", () => {
     const r = tlsSignal.evaluate(input({ conn: humanConn({ tlsVersion: "TLSv1.2", tlsCipher: "ECDHE-RSA-AES256-SHA" }) }));
-    expect(r!.value).toBe(0.8);
+    expect(r!.reason).toContain("cbc-cipher");
+    expect(r!.value).toBeGreaterThanOrEqual(0.8);
+    expect(r!.value).toBeLessThan(1);
+    const only = tlsSignal.evaluate(input({ conn: humanConn({ tlsCipher: "ECDHE-RSA-AES256-SHA" }) }));
+    expect(only!.value).toBe(0.8);
   });
   it("ferramenta (sem navegador alegado) com TLS normal não é penalizada aqui", () => {
     const h = new Headers({ "user-agent": "python-requests/2.32" });
@@ -91,11 +95,16 @@ describe("headers", () => {
   it("Chrome real = coerente", () => {
     expect(headersSignal.evaluate(input())?.value).toBe(0);
   });
-  it("UA de Chrome sem sec-ch-ua e sem sec-fetch = 0.8", () => {
-    const h = new Headers({ "user-agent": CHROME_UA, accept: "text/html", "accept-language": "pt-BR", "accept-encoding": "gzip" });
+  it("UA de Chrome sem sec-ch-ua e sem sec-fetch: duas pistas combinam (> 0.8)", () => {
+    const h = new Headers({ "user-agent": CHROME_UA, accept: "text/html", "accept-language": "pt-BR,pt;q=0.9", "accept-encoding": "gzip" });
     const r = headersSignal.evaluate(input({ headers: h }));
-    expect(r!.value).toBe(0.8);
+    expect(r!.value).toBeGreaterThan(0.8);
     expect(r!.reason).toContain("chromium-without-sec-ch-ua");
+    expect(r!.reason).toContain("no-sec-fetch");
+  });
+  it("Accept-Language de um token só (default do Playwright) = 0.5", () => {
+    expect(headersSignal.evaluate(input({ headers: chromeHeaders({ "accept-language": "en-US" }) }))?.value).toBe(0.5);
+    expect(headersSignal.evaluate(input({ headers: chromeHeaders({ "accept-language": "en-US,en;q=0.9" }) }))?.value).toBe(0);
   });
   it("sec-ch-ua com HeadlessChrome = 1", () => {
     const h = chromeHeaders({ "sec-ch-ua": '"HeadlessChrome";v="130", "Chromium";v="130"' });
@@ -107,7 +116,7 @@ describe("headers", () => {
   });
   it("Firefox sem client hints é normal; com client hints é suspeito", () => {
     const ff = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0";
-    const ok = new Headers({ "user-agent": ff, accept: "text/html", "accept-language": "pt-BR", "accept-encoding": "gzip", "sec-fetch-mode": "navigate", "sec-fetch-dest": "document" });
+    const ok = new Headers({ "user-agent": ff, accept: "text/html", "accept-language": "pt-BR,pt;q=0.8,en-US;q=0.5", "accept-encoding": "gzip", "sec-fetch-mode": "navigate", "sec-fetch-dest": "document" });
     expect(headersSignal.evaluate(input({ headers: ok }))?.value).toBe(0);
     ok.set("sec-ch-ua", '"Chromium";v="130"');
     expect(headersSignal.evaluate(input({ headers: ok }))?.value).toBe(0.9);
@@ -196,6 +205,10 @@ describe("score e veredito", () => {
     const d = decide(input({ velocity: { ip: 3, ipBurst: 1, asn: 10, fp: 5 } }), "cliente.exemplo");
     expect(d.score).toBe(0);
     expect(d.verdict).toBe("ALLOW");
+  });
+  it("UA curto demais (ex.: 'node') = 0.8", () => {
+    expect(uaSignal.evaluate(input({ headers: new Headers({ "user-agent": "node" }) }))?.value).toBe(1);
+    expect(uaSignal.evaluate(input({ headers: new Headers({ "user-agent": "abc def" }) }))?.value).toBe(0.8);
   });
   it("python-requests em AWS = DECOY só com sinais passivos; com velocity vira BLOCK", () => {
     const bot = {

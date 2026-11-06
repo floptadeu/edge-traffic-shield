@@ -118,7 +118,9 @@
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
    "accept-language": "pt-BR,pt;q=0.9",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\""
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\""
   }
  },
  {
@@ -746,7 +748,9 @@
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
    "accept-language": "de-DE,de;q=0.9,en;q=0.8",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\""
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\""
   }
  },
  {
@@ -1572,9 +1576,9 @@
    "sec-fetch-site": "none",
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"",
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
    "sec-ch-ua-mobile": "?0",
-   "sec-ch-ua-platform": "\"macOS\"",
+   "sec-ch-ua-platform": "\"Windows\"",
    "accept-language": "en-US,en;q=0.9,es;q=0.8"
   }
  },
@@ -2039,7 +2043,9 @@
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
    "accept-language": "en-US,en;q=0.9,es;q=0.8",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\""
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\""
   }
  },
  {
@@ -3175,9 +3181,9 @@
    "sec-fetch-site": "cross-site",
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"",
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
    "sec-ch-ua-mobile": "?0",
-   "sec-ch-ua-platform": "\"macOS\"",
+   "sec-ch-ua-platform": "\"Windows\"",
    "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
   }
  },
@@ -4532,9 +4538,9 @@
    "sec-fetch-site": "same-origin",
    "sec-fetch-user": "?1",
    "upgrade-insecure-requests": "1",
-   "sec-ch-ua": "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"",
-   "sec-ch-ua-mobile": "?1",
-   "sec-ch-ua-platform": "\"Android\"",
+   "sec-ch-ua": "\"Chromium\";v=\"109\", \"Google Chrome\";v=\"109\", \"Not?A_Brand\";v=\"99\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-platform": "\"Windows\"",
    "accept-language": "es-MX,es;q=0.9"
   }
  },

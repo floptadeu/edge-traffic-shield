@@ -65,13 +65,16 @@ describe("hot path", () => {
   it("rajada do mesmo IP sobe a velocity (janela deslizante no DO): sozinha não bloqueia humano, mas fecha a conta de um bot", async () => {
     const vel = { shards: 1, windowSec: 60, ip: 20, asn: 10000, fp: 10000, burstWindowSec: 5, ipBurst: 10 };
     const t = await createTenant({ ruleset: { mode: "enforce", velocity: vel } });
-    // Navegador real atrás de NAT compartilhado em nuvem: velocity + ASN = 55 => só SILENT_VERIFY
-    const human = await evalHeader(CONN.aws, { ip: "3.120.10.88" });
+    // Navegador real residencial em rajada (NAT compartilhado): velocity sozinha = 30 => ALLOW
+    const human = await evalHeader(CONN.humanBR, { ip: "177.10.20.88" });
     let last: Response | undefined;
     for (let i = 0; i < 14; i++) last = await visit(t.hostname, "/landing", chromeHeaders({ "x-eval-context": human }));
     expect(debugOf(last!).signals).toContain("velocity:1*30");
-    expect(debugOf(last!).applied).toBe("SILENT_VERIFY");
+    expect(debugOf(last!).applied).toBe("ALLOW");
     expect(last!.status).toBe(200);
+    // Assets não contam velocity nem passam pelo DO
+    const asset = await visit(t.hostname, "/app.css", chromeHeaders({ "x-eval-context": human }));
+    expect(asset.headers.get("x-shield-debug")).toContain("static-asset");
     // Ferramenta em rajada: 25 + 10 + 30 + 30 = 95 => BLOCK
     const bot = await evalHeader(CONN.aws, { ip: "3.120.10.89" });
     for (let i = 0; i < 14; i++) last = await visit(t.hostname, "/landing", { ...TOOL_HEADERS, "x-eval-context": bot });
