@@ -1,5 +1,6 @@
 import type { ConnInfo } from "../conn";
 import type { Ruleset, SignalId } from "../ruleset";
+import type { ParsedUa } from "./ua";
 
 // Contadores de velocity devolvidos pelo Durable Object.
 export interface VelocityCounts {
@@ -18,6 +19,7 @@ export type AttestationState =
 export interface SignalInput {
   conn: ConnInfo;
   headers: Headers;
+  ua: ParsedUa; // User-Agent parseado UMA vez no pipeline; sinais não re-parseiam
   url: URL;
   method: string;
   ruleset: Ruleset;

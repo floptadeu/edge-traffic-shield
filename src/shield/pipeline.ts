@@ -16,10 +16,8 @@ import { demoOrigin } from "./demoOrigin";
 import { applyEvalContext } from "./evalContext";
 import { BEACON_PATH, TRAP_PREFIX, blockResponse, decoyRewrite, injectAttestation, isHtml } from "./html";
 import type { Mode, Ruleset, Verdict } from "./ruleset";
-import { applyRules, evaluateSignals, formatContributions, scoreFrom, verdictFromScore, type Contribution } from "./score";
+import { closeDecision, evaluateSignals, formatContributions, type Contribution } from "./score";
 import { SIGNALS, type SignalInput } from "./signals";
-import { trapSignal } from "./signals/trap";
-import { velocitySignal } from "./signals/velocity";
 import { STATIC_RE } from "./signals/path";
 import { deriveFingerprint } from "./signals/tls";
 import { parseUserAgent } from "./signals/ua";
@@ -91,6 +89,7 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
   const input: SignalInput = {
     conn,
     headers: request.headers,
+    ua,
     url,
     method: request.method,
     ruleset,
@@ -108,7 +107,7 @@ export async function handleShield(request: Request, env: Env, ctx: ExecutionCon
     decision = { verdict: "ALLOW", applied: "ALLOW", mode: ruleset.mode, score: 0, contributions: [], rulesetVersion: workerVersion, src: "fallback" };
   }
 
-  const response = await applyVerdict(request, env, tenant, ruleset, decision, url, secret, fingerprint, attestation, nowSec);
+  const response = await applyVerdict(request, env, tenant, ruleset, decision, url, secret, attestation, nowSec);
 
   if (ruleset.debugHeader) {
     const parts = [
@@ -205,27 +204,12 @@ async function decideWithDurableObject(
   if (forced) {
     return { verdict: forced.verdict, applied: forced.verdict, mode: ruleset.mode, score: 0, contributions: [], rule: forced.reason, rulesetVersion: workerVersion, src: "fallback" };
   }
-  const contributions = signals.map((s) => {
-    const weight = ruleset.weights[s.id] ?? 0;
-    return { id: s.id, value: s.value, weight, points: s.value * weight, reason: s.reason };
-  });
+  // Mesma fórmula do DO (closeDecision): velocity/trap entram só se houver
+  // dica recente deste IP, com o motivo marcado como "~late".
   const late = lateHints.get(hintKey);
-  if (late && Date.now() - late.ts < LATE_HINT_TTL_MS) {
-    const local = { ruleset, velocity: late.velocity, trapHit: late.trapHit } as SignalInput;
-    for (const sig of [velocitySignal, trapSignal]) {
-      const r = sig.evaluate(local);
-      if (r) {
-        const weight = ruleset.weights[sig.id] ?? 0;
-        contributions.push({ id: sig.id, value: r.value, weight, points: r.value * weight, reason: `${r.reason}~late` });
-      }
-    }
-  }
-  const score = scoreFrom(contributions);
-  let verdict = verdictFromScore(score, ruleset);
-  const rule = applyRules(ruleset.rules, { ...ruleCtx, score });
-  if (rule) verdict = rule.verdict;
-  const applied: Verdict = ruleset.mode === "monitor" ? "ALLOW" : verdict;
-  return { verdict, applied, mode: ruleset.mode, score, contributions, ...(rule ? { rule: rule.id } : {}), rulesetVersion: workerVersion, src: "fallback" };
+  const hint = late && Date.now() - late.ts < LATE_HINT_TTL_MS ? late : undefined;
+  const d = closeDecision(signals, ruleset, ruleCtx, hint ? { velocity: hint.velocity, trapHit: hint.trapHit, reasonSuffix: "~late" } : {});
+  return { ...d, rulesetVersion: workerVersion, src: "fallback" };
 }
 
 // DOs não existem em toda colo: sem dica, o objeto pode nascer em outro
@@ -264,7 +248,6 @@ async function applyVerdict(
   d: Decision,
   url: URL,
   secret: string,
-  fingerprint: string,
   attestation: Awaited<ReturnType<typeof readAttestation>>,
   nowSec: number,
 ): Promise<Response> {
@@ -297,7 +280,6 @@ async function applyVerdict(
   // Resposta mutável (headers da origem podem ser imutáveis).
   const out = new Response(res.body, res);
   for (const c of setCookies) out.headers.append("set-cookie", c);
-  void fingerprint;
   return out;
 }
 

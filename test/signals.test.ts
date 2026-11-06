@@ -15,9 +15,11 @@ import { decide, scoreFrom, verdictFromScore } from "../src/shield/score";
 import { CHROME_UA, chromeHeaders, humanConn } from "./helpers";
 
 function input(over: Partial<SignalInput> = {}, ruleset: Ruleset = DEFAULT_RULESET): SignalInput {
+  const headers = over.headers ?? chromeHeaders();
   return {
     conn: humanConn(),
-    headers: chromeHeaders(),
+    headers,
+    ua: parseUserAgent(headers.get("user-agent")),
     url: new URL("https://cliente.exemplo/landing"),
     method: "GET",
     ruleset,

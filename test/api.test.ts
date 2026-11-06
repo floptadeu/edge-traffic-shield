@@ -206,6 +206,10 @@ describe("events, stats e links", () => {
     const blocks = (await (await api(`/v1/tenants/${t.id}/events?verdict=BLOCK`, { key: t.apiKey })).json()) as { data: Array<{ verdict: string }> };
     expect(blocks.data.length).toBe(3);
     expect((await api(`/v1/tenants/${t.id}/events?verdict=NOPE`, { key: t.apiKey })).status).toBe(400);
+    // since não numérico é 400 (não NaN -> 500 no bind do D1); since válido filtra
+    expect((await api(`/v1/tenants/${t.id}/events?since=abc`, { key: t.apiKey })).status).toBe(400);
+    const since = (await (await api(`/v1/tenants/${t.id}/events?since=1700000001000`, { key: t.apiKey })).json()) as { data: unknown[] };
+    expect(since.data.length).toBe(5);
   });
 
   it("stats agrega por minuto e por hora", async () => {

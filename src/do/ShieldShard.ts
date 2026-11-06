@@ -9,10 +9,8 @@ import { DurableObject } from "cloudflare:workers";
 import type { Env } from "../env";
 import { fnv1a } from "../lib/crypto";
 import { DEFAULT_RULESET, parseStoredRuleset, type Ruleset, type Verdict } from "../shield/ruleset";
-import { applyRules, formatContributions, scoreFrom, verdictFromScore, type Contribution } from "../shield/score";
-import { velocitySignal } from "../shield/signals/velocity";
-import { trapSignal } from "../shield/signals/trap";
-import type { SignalInput, VelocityCounts } from "../shield/signals";
+import { closeDecision, formatContributions, type Contribution } from "../shield/score";
+import type { VelocityCounts } from "../shield/signals";
 import type { AggRow, EventBatchMessage, EventSample, ShardRequest, ShardResponse } from "./protocol";
 
 const POLL_INTERVAL_MS = 2000; // intervalo de consulta da versão ao TenantConfig
@@ -83,49 +81,25 @@ export class ShieldShard extends DurableObject<Env> {
     const velocity = this.hitAndCount(req.keys, nowSec, rs);
     const trapHit = this.isTrapped(req.keys.ip, req.ts);
 
-    let contributions: Contribution[];
-    let score: number;
-    let verdict: Verdict;
-    let rule: string | undefined;
-
+    // Fórmula única em closeDecision (shield/score.ts): o fallback do Worker
+    // usa a mesma função, então os dois caminhos nunca divergem.
+    let d: { verdict: Verdict; applied: Verdict; score: number; contributions: Contribution[]; rule?: string };
     if (req.forced) {
-      contributions = [];
-      score = 0;
-      verdict = req.forced.verdict;
-      rule = req.forced.reason;
+      const applied: Verdict = rs.mode === "monitor" ? "ALLOW" : req.forced.verdict;
+      d = { verdict: req.forced.verdict, applied, score: 0, contributions: [], rule: req.forced.reason };
     } else {
-      contributions = req.signals.map((s) => {
-        const weight = rs.weights[s.id] ?? 0;
-        return { id: s.id, value: s.value, weight, points: s.value * weight, reason: s.reason };
-      });
-      // Sinais que só o DO conhece.
-      const local: Pick<SignalInput, "ruleset" | "velocity" | "trapHit"> = { ruleset: rs, velocity, trapHit };
-      for (const sig of [velocitySignal, trapSignal]) {
-        const r = sig.evaluate(local as SignalInput);
-        if (r) {
-          const weight = rs.weights[sig.id] ?? 0;
-          contributions.push({ id: sig.id, value: r.value, weight, points: r.value * weight, reason: r.reason });
-        }
-      }
-      score = scoreFrom(contributions);
-      verdict = verdictFromScore(score, rs);
-      const matched = applyRules(rs.rules, { ...req.rule, score });
-      if (matched) {
-        verdict = matched.verdict;
-        rule = matched.id;
-      }
+      d = closeDecision(req.signals, rs, req.rule, { velocity, trapHit });
     }
 
-    const applied: Verdict = rs.mode === "monitor" ? "ALLOW" : verdict;
-    this.record(req, verdict, applied, score, contributions);
+    this.record(req, d.verdict, d.applied, d.score, d.contributions);
 
     return {
-      verdict,
-      applied,
+      verdict: d.verdict,
+      applied: d.applied,
       mode: rs.mode,
-      score,
-      contributions,
-      ...(rule ? { rule } : {}),
+      score: d.score,
+      contributions: d.contributions,
+      ...(d.rule ? { rule: d.rule } : {}),
       rulesetVersion: this.rulesetVersion,
       velocity,
     };

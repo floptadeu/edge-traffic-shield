@@ -3,7 +3,6 @@
 // Sec-Fetch-*, e no Chromium os Client Hints sec-ch-ua*). Ferramentas que
 // copiam só o User-Agent erram nesses detalhes.
 
-import { parseUserAgent } from "./ua";
 import { combine, type Signal, type SignalInput, type SignalResult } from "./types";
 
 function brandVersions(secChUa: string): { major: number; brands: string } {
@@ -25,7 +24,7 @@ export const headersSignal: Signal = {
   description: "Headers ausentes ou contraditórios para o navegador alegado",
   evaluate(input: SignalInput): SignalResult | null {
     const h = input.headers;
-    const ua = parseUserAgent(h.get("user-agent"));
+    const ua = input.ua;
     const checks: Array<[number, string]> = [];
     const accept = h.get("accept");
     const lang = h.get("accept-language");

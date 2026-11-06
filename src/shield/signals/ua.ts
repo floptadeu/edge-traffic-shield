@@ -73,7 +73,7 @@ export const uaSignal: Signal = {
   passive: true,
   description: "User-Agent de ferramenta, headless, vazio, implausível ou crawler falso",
   evaluate(input: SignalInput): SignalResult | null {
-    const p = parseUserAgent(input.headers.get("user-agent"));
+    const p = input.ua;
     if (input.crawlerSpoof) return { value: 1, reason: "crawler-ua-not-verified" };
     if (p.family === "empty") return { value: 0.9, reason: "empty" };
     if (p.headless) return { value: 1, reason: "headless" };

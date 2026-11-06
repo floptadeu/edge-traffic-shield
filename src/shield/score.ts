@@ -1,8 +1,10 @@
 // Score 0–100 e veredito. Função pura: usada pelo Durable Object (caminho
 // normal, com velocity) e pelo Worker (fallback sem velocity).
 
-import type { Rule, RuleCondition, Ruleset, SignalId, Verdict } from "./ruleset";
-import { SIGNALS, type Signal, type SignalInput } from "./signals";
+import type { Mode, Rule, RuleCondition, Ruleset, SignalId, Verdict } from "./ruleset";
+import { SIGNALS, type Signal, type SignalInput, type VelocityCounts } from "./signals";
+import { trapSignal } from "./signals/trap";
+import { velocitySignal } from "./signals/velocity";
 
 export interface Contribution {
   id: SignalId;
@@ -91,6 +93,48 @@ export function applyRules(rules: Rule[], ctx: RuleContext): Rule | undefined {
     }
   }
   return undefined;
+}
+
+export interface ClosedDecision {
+  verdict: Verdict;
+  applied: Verdict;
+  mode: Mode;
+  score: number;
+  contributions: Contribution[];
+  rule?: string;
+}
+
+// Fecha a decisão a partir dos sinais já avaliados no Worker + velocity/trap
+// (quando conhecidos). Única implementação da fórmula: o Durable Object e o
+// fallback do Worker chamam esta função.
+export function closeDecision(
+  signals: ReadonlyArray<{ id: SignalId; value: number; reason: string }>,
+  ruleset: Ruleset,
+  ruleCtx: Omit<RuleContext, "score">,
+  local: { velocity?: VelocityCounts; trapHit?: boolean; reasonSuffix?: string } = {},
+): ClosedDecision {
+  const contributions: Contribution[] = signals.map((s) => {
+    const weight = ruleset.weights[s.id] ?? 0;
+    return { id: s.id, value: s.value, weight, points: s.value * weight, reason: s.reason };
+  });
+  const localInput = { ruleset, velocity: local.velocity, trapHit: local.trapHit } as SignalInput;
+  for (const sig of [velocitySignal, trapSignal]) {
+    const r = sig.evaluate(localInput);
+    if (!r) continue;
+    const weight = ruleset.weights[sig.id] ?? 0;
+    const reason = local.reasonSuffix ? `${r.reason}${local.reasonSuffix}` : r.reason;
+    contributions.push({ id: sig.id, value: r.value, weight, points: r.value * weight, reason });
+  }
+  const score = scoreFrom(contributions);
+  let verdict = verdictFromScore(score, ruleset);
+  let rule: string | undefined;
+  const matched = applyRules(ruleset.rules, { ...ruleCtx, score });
+  if (matched) {
+    verdict = matched.verdict;
+    rule = matched.id;
+  }
+  const applied: Verdict = ruleset.mode === "monitor" ? "ALLOW" : verdict;
+  return { verdict, applied, mode: ruleset.mode, score, contributions, ...(rule ? { rule } : {}) };
 }
 
 export function decide(input: SignalInput, host: string): Decision {

@@ -306,6 +306,7 @@ route("GET", "/v1/tenants/:id/events", async ({ env, url, params, principal }) =
   const verdict = url.searchParams.get("verdict");
   if (verdict && !VERDICTS.includes(verdict as Verdict)) throw new ApiError(400, "verdict inválido");
   const since = Number(url.searchParams.get("since") ?? 0);
+  if (!Number.isFinite(since) || since < 0) throw new ApiError(400, "since: timestamp (ms) numérico");
   const where = ["tenant_id = ?", "ts >= ?"];
   const binds: unknown[] = [params.id, since];
   if (cur) {

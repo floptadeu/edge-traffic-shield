@@ -4,7 +4,7 @@
 
 import { fnv1a } from "../../lib/crypto";
 import type { ConnInfo } from "../conn";
-import { isBrowser, parseUserAgent, type ParsedUa } from "./ua";
+import { isBrowser, type ParsedUa } from "./ua";
 import { combine, type Signal, type SignalInput, type SignalResult } from "./types";
 
 // Fingerprint estável usado como chave de velocity. Não identifica uma pessoa;
@@ -28,7 +28,7 @@ export const tlsSignal: Signal = {
   evaluate(input: SignalInput): SignalResult | null {
     const { tlsVersion, tlsCipher, tlsClientHelloLength: len, httpProtocol } = input.conn;
     if (!tlsVersion && !httpProtocol) return null; // sem dados (ex.: teste local em http)
-    const ua = parseUserAgent(input.headers.get("user-agent"));
+    const ua = input.ua;
     const browser = isBrowser(ua);
     const checks: Array<[number, string]> = [];
 
