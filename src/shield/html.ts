@@ -8,7 +8,7 @@ import type { Ruleset } from "./ruleset";
 export const BEACON_PATH = "/__ets/beacon";
 export const TRAP_PREFIX = "/__ets/t/";
 
-function isHtml(res: Response): boolean {
+export function isHtml(res: Response): boolean {
   return (res.headers.get("content-type") ?? "").includes("text/html");
 }
 
