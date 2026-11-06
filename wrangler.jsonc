@@ -7,8 +7,10 @@
   "observability": { "enabled": true },
 
   "vars": {
-    // Timeout da chamada ao Durable Object no hot path. Estourou => fail-open sem velocity.
-    "DO_TIMEOUT_MS": "10",
+    // Quanto o hot path espera pelo Durable Object. Estourou => decide com a última
+    // velocity conhecida do IP (dica tardia) e o DO termina em background (waitUntil).
+    // Medido: DO a ~125 ms de GRU (não há DO na América do Sul), por isso 5 ms.
+    "DO_TIMEOUT_MS": "5",
     // Recursos de dev/teste: X-Shield-Chaos (injeção de falha) e X-Shield-Host (simular hostname).
     // Em produção fica "false".
     "DEV_FEATURES": "false",

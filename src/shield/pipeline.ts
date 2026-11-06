@@ -175,7 +175,7 @@ async function decideWithDurableObject(
     event: { host: url.hostname, path: url.pathname, country: conn.country, colo: conn.colo },
   };
 
-  const timeoutMs = Number(env.DO_TIMEOUT_MS ?? 10) || 10;
+  const timeoutMs = Number(env.DO_TIMEOUT_MS ?? 5) || 5;
   const stub = shardFor(env, tenant.tenantId, conn, ruleset.velocity.shards, continentOf(request));
   const hintKey = `${tenant.tenantId}:${conn.ip}`;
   const call = stub.evaluate(req);
