@@ -25,6 +25,8 @@
   // Custom Hostnames dos clientes, cai neste Worker. O fallback origin é um registro
   // AAAA 100:: proxied (sem origem); quem responde é o Worker.
   "routes": [{ "pattern": "*/*", "zone_name": "felipetadeu.fyi" }],
+  // Com "routes" declarado o wrangler desliga o workers.dev por padrão; a API de gestão mora nele.
+  "workers_dev": true,
 
   "kv_namespaces": [
     { "binding": "CONFIG_KV", "id": "3921ae31ea314c5c9d6226e228c2cf43" }
