@@ -60,7 +60,7 @@ feito; em `monitor` é sempre ALLOW), `score`, `rs=vN` (versão do ruleset), `sr
 ## Testes, fixtures e carga
 
 ```bash
-npm test                         # 105 testesdentro do runtime Workers (miniflare): sinais isolados,
+npm test                         # 105 testes dentro do runtime Workers (miniflare): sinais isolados,
                                  # R1, R2, R3 com injeção de falha, isolamento cross-tenant, API, DO, consumer
 npm run typecheck
 npm run fixtures:gen             # regenera fixtures/*.json (determinístico)
