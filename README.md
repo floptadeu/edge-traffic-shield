@@ -9,7 +9,7 @@ visitante → Worker (sinais → score → ruleset → veredito) → origem do c
                      ALLOW · SILENT_VERIFY · DECOY · BLOCK
 ```
 
-- **Demonstração:** <https://demo.lojademo.win/landing> — domínio de cliente (`lojademo.win`) entrando na
+- **Demonstração:** <https://demo.lojademo.win/landing> (em inglês: `/landing?lang=en`) — domínio de cliente (`lojademo.win`) entrando na
   plataforma (`felipetadeu.fyi`) por Custom Hostname, criado pela API do projeto. A API de gestão fica em
   `https://edge-traffic-shield.edge-traffic-shield.workers.dev/__ets/api/v1`.
 - **Stack:** TypeScript strict · Workers · D1 (fonte da verdade) · KV (config no hot path) ·
@@ -63,7 +63,7 @@ feito; em `monitor` é sempre ALLOW), `score`, `rs=vN` (versão do ruleset), `sr
 ## Testes, fixtures e carga
 
 ```bash
-npm test                         # 105 testes dentro do runtime Workers (miniflare): sinais isolados,
+npm test                         # 106 testes dentro do runtime Workers (miniflare): sinais isolados,
                                  # R1, R2, R3 com injeção de falha, isolamento cross-tenant, API, DO, consumer
 npm run typecheck
 npm run fixtures:gen             # regenera fixtures/*.json (determinístico)
@@ -201,5 +201,5 @@ src/do/TenantConfig.ts       DO por tenant: ponteiro da versão ativa (propagaç
 src/queue/consumer.ts        consumer idempotente → agregados e amostras no D1
 src/api/*.ts                 API de gestão
 src/lib/failopen.ts          safe(): timeout + fallback + registro de degradação (R3)
-test/*.test.ts               105 testes; fixtures/ e scripts/ para custo, carga e bootstrap
+test/*.test.ts               106 testes; fixtures/ e scripts/ para custo, carga e bootstrap
 ```

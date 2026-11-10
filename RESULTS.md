@@ -23,7 +23,8 @@ Função de custo do enunciado, com a interpretação conservadora de que **DECO
 
 ## Custo medido nas fixtures (`node scripts/eval-fixtures.mjs`)
 
-Local (`wrangler dev`) e no deploy deram o mesmo resultado — é determinístico por construção.
+Local (`wrangler dev`), no deploy em `workers.dev` e no domínio de cliente por Custom Hostname
+(`results/fixtures-custom-hostname.txt`) deram o mesmo resultado — é determinístico por construção.
 
 ```
 label              ALLOW SILENT_VERIFY         DECOY         BLOCK
@@ -55,6 +56,7 @@ No dia da avaliação prefiro perder 4 pontos de bots do que arriscar 10 por hum
 |---|---|---|---|
 | Local, 30 000 req a 500 req/s alvo (`results/load-local.txt`) | p50 40 ms · p95 96 ms · p99 147 ms | p50 457 ms · p95 856 ms | `wrangler dev` é um processo só e o gerador roda na mesma máquina: saturou em ~350 req/s. Serve para funcionalidade e cota, não para latência. |
 | Deploy (workers.dev), 1 000 req a ~45 req/s (`results/load-remote.txt`) | **p50 5 ms · p95 5 ms · p99 32 ms** (máx. 1,5 s na criação do primeiro shard) | p50 40 ms · p95 208 ms | Medido de São Paulo (WSL) contra a colo mais próxima. Amostra pequena para não gastar a cota do dia. |
+| Domínio de cliente (`demo.lojademo.win`, Custom Hostname), 1 000 req a ~45 req/s (`results/load-custom-hostname.txt`) | **p50 5 ms · p95 5 ms · p99 10 ms** | p50 93 ms · p95 670 ms | Mesma origem de medição. 50 das 1 000 requisições falharam no transporte, antes de qualquer resposta HTTP; as 950 respondidas vieram todas com 200. A mesma falha apareceu em duas das três rodadas de fixtures (19 e 36 requisições); a causa não foi isolada. |
 
 **O que descobri no deploy:** Durable Objects não existem na América do Sul. Medi o RTT do DO a
 partir de GRU com timeout de 3 s: **120–140 ms** quente, mesmo com `locationHint: "sam"`
