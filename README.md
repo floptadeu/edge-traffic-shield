@@ -9,7 +9,7 @@ visitante → Worker (sinais → score → ruleset → veredito) → origem do c
                      ALLOW · SILENT_VERIFY · DECOY · BLOCK
 ```
 
-- **Demonstração:** <https://demo.lojademo.win/landing> (em inglês: `/landing?lang=en`) — domínio de cliente (`lojademo.win`) entrando na
+- **Demonstração:** <https://demo.lojademo.win/landing> (em português: `/landing?lang=pt`) — domínio de cliente (`lojademo.win`) entrando na
   plataforma (`felipetadeu.fyi`) por Custom Hostname, criado pela API do projeto. A API de gestão fica em
   `https://edge-traffic-shield.edge-traffic-shield.workers.dev/__ets/api/v1`.
 - **Stack:** TypeScript strict · Workers · D1 (fonte da verdade) · KV (config no hot path) ·

@@ -19,20 +19,18 @@ describe("hot path", () => {
     expect(d.src).toBe("do");
     expect(d.rs).toBe("v1");
     expect(res.headers.get("server-timing")).toMatch(/ets;dur=\d+/);
-    expect(await res.text()).toContain("R$ 1.299,00");
+    expect(await res.text()).toContain("$1,299.00");
   });
 
-  it("landing de demonstração sai em inglês com ?lang=en ou Accept-Language en, e em português no resto", async () => {
+  it("landing de demonstração sai em inglês e, com ?lang=pt, em português", async () => {
     const t = await createTenant({ ruleset: { mode: "enforce" } });
-    const human = async () => ({ "x-eval-context": await evalHeader(CONN.humanBR) });
-    const byQuery = await (await visit(t.hostname, "/landing?lang=en", chromeHeaders(await human()))).text();
-    expect(byQuery).toContain('<html lang="en">');
-    expect(byQuery).toContain("R$ 1,299.00");
-    const byHeader = await (await visit(t.hostname, "/landing", chromeHeaders({ ...(await human()), "accept-language": "en-US,en;q=0.9" }))).text();
-    expect(byHeader).toContain("Enroll now");
-    const forcedPt = await (await visit(t.hostname, "/landing?lang=pt", chromeHeaders({ ...(await human()), "accept-language": "en-US,en;q=0.9" }))).text();
-    expect(forcedPt).toContain('<html lang="pt-BR">');
-    expect(forcedPt).toContain("R$ 1.299,00");
+    const human = async () => chromeHeaders({ "x-eval-context": await evalHeader(CONN.humanBR) });
+    const en = await (await visit(t.hostname, "/landing", await human())).text();
+    expect(en).toContain('<html lang="en">');
+    expect(en).toContain("Enroll now");
+    const pt = await (await visit(t.hostname, "/landing?lang=pt", await human())).text();
+    expect(pt).toContain('<html lang="pt-BR">');
+    expect(pt).toContain("R$ 1.299,00");
   });
 
   it("modo monitor: calcula o veredito mas aplica ALLOW", async () => {
@@ -45,7 +43,7 @@ describe("hot path", () => {
     expect(d.mode).toBe("monitor");
     expect(d.signals).toContain("asn:1*25");
     expect(d.signals).toContain("ua:1*30");
-    expect(await res.text()).toContain("R$ 1.299,00"); // conteúdo intacto
+    expect(await res.text()).toContain("$1,299.00"); // conteúdo intacto
   });
 
   it("DECOY em enforce: 200 com preços embaralhados e link-armadilha invisível", async () => {
@@ -54,8 +52,8 @@ describe("hot path", () => {
     expect(res.status).toBe(200);
     expect(debugOf(res).applied).toBe("DECOY");
     const html = await res.text();
-    expect(html).not.toContain("R$ 1.299,00");
-    expect(html).toMatch(/R\$ \d\.\d{3},00/); // mesmo formato, outros dígitos
+    expect(html).not.toContain("$1,299.00");
+    expect(html).toMatch(/\$\d,\d{3}\.00/); // mesmo formato, outros dígitos
     expect(html).toContain('/__ets/t/');
     expect(html).toContain("left:-9999px");
     expect(res.headers.get("x-robots-tag")).toContain("noindex");
@@ -140,7 +138,7 @@ describe("hot path", () => {
     expect(debugOf(res).applied).toBe("SILENT_VERIFY");
     const html = await res.text();
     // Conteúdo intacto, nada visível, nenhum desafio interativo.
-    expect(html).toContain("R$ 1.299,00");
+    expect(html).toContain("$1,299.00");
     expect(html).toContain("/__ets/beacon");
     expect(html).toContain('display="none"'.replace('="', "=\"") === 'display="none"' ? "display=\"none\"" : "display=\"none\"");
     expect(html).not.toMatch(/captcha|checkbox|verifique|aguarde/i);

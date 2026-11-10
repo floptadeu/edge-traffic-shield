@@ -284,7 +284,7 @@ async function applyVerdict(
 }
 
 async function fetchOrigin(request: Request, tenant: TenantHost, url: URL, applied: Verdict): Promise<Response> {
-  if (tenant.origin === "demo") return demoOrigin(url, applied, request.headers.get("accept-language"));
+  if (tenant.origin === "demo") return demoOrigin(url, applied);
   const target = new URL(url.pathname + url.search, tenant.origin);
   const headers = new Headers(request.headers);
   headers.set("x-forwarded-host", url.hostname);
