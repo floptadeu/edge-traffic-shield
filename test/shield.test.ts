@@ -22,6 +22,19 @@ describe("hot path", () => {
     expect(await res.text()).toContain("R$ 1.299,00");
   });
 
+  it("landing de demonstração sai em inglês com ?lang=en ou Accept-Language en, e em português no resto", async () => {
+    const t = await createTenant({ ruleset: { mode: "enforce" } });
+    const human = async () => ({ "x-eval-context": await evalHeader(CONN.humanBR) });
+    const byQuery = await (await visit(t.hostname, "/landing?lang=en", chromeHeaders(await human()))).text();
+    expect(byQuery).toContain('<html lang="en">');
+    expect(byQuery).toContain("R$ 1,299.00");
+    const byHeader = await (await visit(t.hostname, "/landing", chromeHeaders({ ...(await human()), "accept-language": "en-US,en;q=0.9" }))).text();
+    expect(byHeader).toContain("Enroll now");
+    const forcedPt = await (await visit(t.hostname, "/landing?lang=pt", chromeHeaders({ ...(await human()), "accept-language": "en-US,en;q=0.9" }))).text();
+    expect(forcedPt).toContain('<html lang="pt-BR">');
+    expect(forcedPt).toContain("R$ 1.299,00");
+  });
+
   it("modo monitor: calcula o veredito mas aplica ALLOW", async () => {
     const t = await createTenant({ ruleset: { mode: "monitor" } });
     const res = await visit(t.hostname, "/landing", { ...TOOL_HEADERS, "x-eval-context": await evalHeader(CONN.awsTool) });
