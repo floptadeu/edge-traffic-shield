@@ -1,7 +1,8 @@
 # Resultados
 
 Medições feitas em 05/11/2026. Saídas brutas em `results/` (`fixtures-*.txt/json`, `load-*.txt`).
-Deploy de demonstração: `https://edge-traffic-shield.edge-traffic-shield.workers.dev/landing`.
+Deploy de demonstração: `https://demo.lojademo.win/landing` (domínio de cliente entrando por Custom
+Hostname na zona da plataforma, `felipetadeu.fyi`) e `https://edge-traffic-shield.edge-traffic-shield.workers.dev/landing`.
 
 ## Como montei as fixtures
 
@@ -104,9 +105,6 @@ Sobra folga de 10× em Queues e de 3× em Workers/DO para a rodada de avaliaçã
   requests isso não muda nada; para um scraper lento (1 req/s) a velocity nunca sobe, e aí quem
   trabalha são os sinais passivos, o desafio ignorado e o trap.
 - **Bloco E:** não tenho CI nem lint configurados (fora do escopo, mas um revisor pode sentir falta).
-- **Custom Hostname ponta a ponta:** o código e a API existem (`src/api/cloudflare.ts`), mas o
-  deploy de demonstração está só no `workers.dev`, sem zona própria; a parte do CNAME/certificado
-  está documentada no README e não demonstrada ao vivo.
 
 ## Premissas que assumi (e perguntas que mandei/mandaria ao recrutador)
 

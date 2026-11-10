@@ -9,6 +9,9 @@ visitante → Worker (sinais → score → ruleset → veredito) → origem do c
                      ALLOW · SILENT_VERIFY · DECOY · BLOCK
 ```
 
+- **Demonstração:** <https://demo.lojademo.win/landing> — domínio de cliente (`lojademo.win`) entrando na
+  plataforma (`felipetadeu.fyi`) por Custom Hostname, criado pela API do projeto. A API de gestão fica em
+  `https://edge-traffic-shield.edge-traffic-shield.workers.dev/__ets/api/v1`.
 - **Stack:** TypeScript strict · Workers · D1 (fonte da verdade) · KV (config no hot path) ·
   Durable Objects (velocity + decisão + lotes) · Queues (eventos) · Cloudflare for SaaS
   (hostname do cliente) · Vitest com `@cloudflare/vitest-plugin` (o antigo
@@ -107,17 +110,35 @@ Como o hostname registrado é o próprio `workers.dev`, a landing de demonstraç
 
 ### Domínio do cliente (Cloudflare for SaaS, ponta a ponta)
 
-1. Tenha uma zona na sua conta (o domínio da plataforma, ex. `plataforma.com`) e ative
-   **SSL/TLS → Custom Hostnames** (100 hostnames inclusos no Free).
-2. Crie o *fallback origin* (`shield.plataforma.com`, registro DNS proxied) e aponte uma rota do Worker
-   para ele (`routes` no `wrangler.jsonc` ou `wrangler deploy --routes 'shield.plataforma.com/*'`).
-   Preencha `FALLBACK_ORIGIN` em `vars`.
-3. Crie um API token (permissão *SSL and Certificates: Edit* na zona) e configure
-   `CF_API_TOKEN` e `CF_ZONE_ID` como secrets.
-4. `POST /__ets/api/v1/tenants/{id}/domains {"hostname":"www.cliente.com"}` cria o Custom Hostname e
-   devolve os registros de validação; o cliente aponta `www.cliente.com CNAME shield.plataforma.com`.
-   `GET .../domains/www.cliente.com` acompanha o status até `active`.
-5. Sem token (modo `manual`) o fluxo é o mesmo, só que o Custom Hostname é criado no dashboard.
+É assim que a demonstração está montada: plataforma na zona `felipetadeu.fyi`, cliente em `demo.lojademo.win`.
+
+1. Tenha uma zona na sua conta (o domínio da plataforma) e ative **SSL/TLS → Custom Hostnames**
+   (Cloudflare for SaaS; 100 hostnames inclusos no Free).
+2. Crie o *fallback origin* como registro sem origem (`shield.felipetadeu.fyi AAAA 100::`, proxied) e
+   defina-o em **Custom Hostnames → Fallback Origin**; quem responde é o Worker.
+3. No `wrangler.jsonc`: `routes: [{ "pattern": "*/*", "zone_name": "<zona>" }]` (todo tráfego da zona,
+   inclusive o dos Custom Hostnames, cai no Worker), `workers_dev: true` (declarar `routes` desliga o
+   workers.dev por padrão), `FALLBACK_ORIGIN` com o hostname do passo 2 e `PLATFORM_HOST` com o host
+   da API de gestão. Com `PLATFORM_HOST` preenchido, `/__ets/api` devolve 404 nos domínios dos clientes.
+4. Crie um API token (permissão *SSL and Certificates: Edit* só nessa zona) e configure
+   `CF_API_TOKEN` e `CF_ZONE_ID` como secrets. `npx wrangler deploy`.
+5. O cliente aponta o DNS dele: `demo.lojademo.win CNAME shield.felipetadeu.fyi` (DNS only).
+6. Onboarding pela API, com a chave do tenant:
+
+   ```bash
+   API=https://edge-traffic-shield.edge-traffic-shield.workers.dev/__ets/api/v1
+   curl -s -X POST $API/tenants/demo/domains -H "Authorization: Bearer $TENANT_KEY" \
+     -H 'content-type: application/json' -d '{"hostname":"demo.lojademo.win"}'
+   # 201: status "pending", cf_hostname_id, registro TXT de ownership e o CNAME esperado
+   curl -s $API/tenants/demo/domains/demo.lojademo.win -H "Authorization: Bearer $TENANT_KEY"
+   # consulta a Cloudflare a cada chamada: hostname "active" em segundos; certificado (DV por HTTP)
+   # passa por pending_validation e fica "active" em ~3 min, sem nenhum registro extra no DNS
+   ```
+
+   O `POST` grava o domínio no D1 e compila `host:<hostname>` no KV, então o hot path já resolve o
+   tenant assim que o tráfego chega.
+7. `curl -si https://demo.lojademo.win/landing` responde pelo Worker, com `X-Shield-Debug`.
+8. Sem token (modo `manual`) o fluxo é o mesmo, só que o Custom Hostname é criado no dashboard.
 
 ### Turnstile (opcional, recomendado para a demo)
 
