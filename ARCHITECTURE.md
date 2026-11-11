@@ -18,7 +18,7 @@ visitante ──► Worker (src/shield/pipeline.ts)
    8. aplica                      ALLOW: proxy · SILENT_VERIFY: proxy + <script> invisível · DECOY: proxy + HTMLRewriter (preços
                                   embaralhados + link-armadilha oculto que rotaciona a cada 10 min; JSON/texto também sai
                                   embaralhado) · BLOCK: 403 curto. X-Shield-Debug explica tudo.
-DO ──(lote: 100 eventos ou 30 s)──► Queue ──► consumer idempotente (batch_id) ──► D1 stats_minute + amostra em events
+DO ──(lote: 100 eventos, 2 s sem evento ou 30 s)──► Queue ──► consumer idempotente (batch_id) ──► D1 stats_minute + amostra em events
 API (/__ets/api/v1) ──► D1 (verdade) ──► KV (compilado) ──► TenantConfig DO (ponteiro de versão, lido pelos shards a cada 2 s)
 ```
 
@@ -63,7 +63,7 @@ Hipótese: 500 req/s × 50 s + 5 000 requisições espalhadas; 1 colo; 4 shards 
 | DO linhas SQLite | contadores em memória; ponteiro de versão = 1 escrita por publish | ≈ 0 | 5 M lidas / 100 k escritas |
 | KV leituras | `host:` 1 por isolate a cada 30 s + `ruleset:` 1 por versão por isolate (≈ 30 isolates) | < 300 | 100 000 |
 | KV escritas | 0 no hot path; 2 por publish de ruleset, 1 por domínio | ≈ 10 | 1 000 |
-| Queue operações | lotes: 30 000 / 100 = 300 msgs na carga + flushes de 30 s no restante (≈ 50) = 350 msgs × 3 (write+read+delete), cada msg < 64 KB | ≈ 1 050 | 10 000 |
+| Queue operações | lotes: 30 000 / 100 = 300 msgs na carga + flushes por ociosidade (2 s) ou 30 s no restante (≈ 50) = 350 msgs × 3 (write+read+delete), cada msg < 64 KB | ≈ 1 050 | 10 000 |
 | D1 escritas | por mensagem: 1 batch + ≤ 8 linhas de `stats_minute` + ≤ 60 amostras ≈ 70 → 350 × 70 | ≈ 25 000 | 100 000 |
 | D1 leituras | consumer: 1 SELECT de idempotência por invocação; API só sob demanda | < 10 000 | 5 M |
 | D1 queries/invocação | consumer = 2 (SELECT + `batch()`, que conta como 1) | 2 | 50 |

@@ -63,7 +63,7 @@ feito; em `monitor` é sempre ALLOW), `score`, `rs=vN` (versão do ruleset), `sr
 ## Testes, fixtures e carga
 
 ```bash
-npm test                         # 106 testes dentro do runtime Workers (miniflare): sinais isolados,
+npm test                         # 107 testes dentro do runtime Workers (miniflare): sinais isolados,
                                  # R1, R2, R3 com injeção de falha, isolamento cross-tenant, API, DO, consumer
 npm run typecheck
 npm run fixtures:gen             # regenera fixtures/*.json (determinístico)
@@ -201,5 +201,5 @@ src/do/TenantConfig.ts       DO por tenant: ponteiro da versão ativa (propagaç
 src/queue/consumer.ts        consumer idempotente → agregados e amostras no D1
 src/api/*.ts                 API de gestão
 src/lib/failopen.ts          safe(): timeout + fallback + registro de degradação (R3)
-test/*.test.ts               106 testes; fixtures/ e scripts/ para custo, carga e bootstrap
+test/*.test.ts               107 testes; fixtures/ e scripts/ para custo, carga e bootstrap
 ```
