@@ -15,7 +15,10 @@ import type { AggRow, EventBatchMessage, EventSample, ShardRequest, ShardRespons
 
 const POLL_INTERVAL_MS = 2000; // intervalo de consulta da versão ao TenantConfig
 const FLUSH_EVERY_EVENTS = 100; // lote cheio
-const FLUSH_EVERY_MS = 30_000; // ou a cada 30 s com tráfego baixo
+const FLUSH_EVERY_MS = 30_000; // ou a cada 30 s com tráfego contínuo
+// DO ocioso é recriado em segundos (medido ~10 s) e o buffer em memória some.
+// Por isso o lote também sai IDLE_FLUSH_MS depois do último evento (timer em memória, sem escrita).
+const IDLE_FLUSH_MS = 2_000;
 const MAX_SAMPLES_PER_BATCH = 60; // mantém a mensagem < 64 KB (1 operação de Queue)
 const ALLOW_SAMPLE_RATE = 10; // 1 em 10 ALLOW vira amostra individual
 const TRAP_TTL_MS = 10 * 60_000;
@@ -69,6 +72,7 @@ export class ShieldShard extends DurableObject<Env> {
   private samples: EventSample[] = [];
   private allowSeen = 0;
   private flushing: Promise<void> | null = null;
+  private idleTimer: ReturnType<typeof setTimeout> | undefined;
 
   // ----- decisão -----------------------------------------------------------
 
@@ -257,11 +261,24 @@ export class ShieldShard extends DurableObject<Env> {
     }
 
     if (this.pendingTotal >= FLUSH_EVERY_EVENTS) this.ctx.waitUntil(this.doFlush());
+    else this.armIdleFlush();
+  }
+
+  private armIdleFlush(): void {
+    if (this.idleTimer !== undefined) clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(() => {
+      this.idleTimer = undefined;
+      this.ctx.waitUntil(this.doFlush());
+    }, IDLE_FLUSH_MS);
   }
 
   private async doFlush(): Promise<void> {
     if (this.flushing) return this.flushing;
     if (this.pendingTotal === 0) return;
+    if (this.idleTimer !== undefined) {
+      clearTimeout(this.idleTimer);
+      this.idleTimer = undefined;
+    }
     const msg: EventBatchMessage = {
       batchId: `${this.shardName}:${++this.seq}:${this.pendingFrom}`,
       tenantId: this.tenantId,

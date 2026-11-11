@@ -84,6 +84,28 @@ describe("ShieldShard", () => {
     }
   });
 
+  it("tráfego baixo: poucos eventos saem em lote ~2 s após o último, sem depender do alarme", async () => {
+    // Em produção o DO ocioso é recriado em ~10 s; o alarme de 30 s acordava com o buffer vazio.
+    const s = stub("do-test:GRU:idle");
+    const sent: EventBatchMessage[] = [];
+    const orig = env.EVENTS_QUEUE.send.bind(env.EVENTS_QUEUE);
+    // Só os lotes deste tenant: timers de shards de outros testes também disparam aqui.
+    env.EVENTS_QUEUE.send = (async (m: EventBatchMessage) => { if (m.tenantId === "do-idle") sent.push(m); }) as never;
+    try {
+      const t0 = Date.now();
+      for (let i = 0; i < 3; i++) await s.evaluate(shardReq({ tenantId: "do-idle" }, "7.7.7.7", t0 + i));
+      await new Promise((r) => setTimeout(r, 1000));
+      await s.evaluate(shardReq({ tenantId: "do-idle" }, "7.7.7.7", Date.now())); // novo evento adia o envio
+      await new Promise((r) => setTimeout(r, 1500));
+      expect(sent.length).toBe(0);
+      await new Promise((r) => setTimeout(r, 1000));
+      expect(sent.length).toBe(1);
+      expect(sent[0]!.total).toBe(4);
+    } finally {
+      env.EVENTS_QUEUE.send = orig as never;
+    }
+  });
+
   it("janela maior em ruleset novo recria o contador (buffer antigo não subconta)", async () => {
     const s = stub("do-test:GRU:resize");
     await runInDurableObject(s, (instance) => {
